@@ -57,7 +57,7 @@ export default class Suggestion extends React.Component {
             </span>
             {date_modified !== null &&
               <span className='modified'>
-                <p>Last Modified: {date_modified}</p>
+                <p>Modified: {date_modified}</p>
               </span>
             }
           </div>
@@ -92,7 +92,7 @@ export default class Suggestion extends React.Component {
             </span>
             {date_modified !== null &&
               <span className='modified'>
-                <p>Last Modified: {date_modified}</p>
+                <p>Modified: {date_modified}</p>
               </span>
             }
           </div>
@@ -140,7 +140,7 @@ export default class Suggestion extends React.Component {
             </span>
             {date_modified !== null &&
               <span className='modified'>
-                <p>Last Modified: {date_modified}</p>
+                <p>Modified: {date_modified}</p>
               </span>
             }
           </div>

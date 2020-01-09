@@ -69,10 +69,14 @@ class EditSuggestionForm extends React.Component {
           <Link
             to={`/demo-employee`}
             onClick={this.handleClickSubmit}
+            className='makeButton'
           >
             Submit
           </Link>
-          <Link to={`/demo-employee`}>
+          <Link 
+            to={`/demo-employee`}
+            className='makeButton'
+          >
             Cancel
           </Link>
       </form>        

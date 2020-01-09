@@ -8,7 +8,7 @@ class Hero extends React.Component {
       <section className='hero'>
         <header role='banner'>
           <h1>SUGGEST</h1>
-          <h2>WHAT'S ON YOUR MIND?</h2>
+          <h2>What's on your mind?</h2>
         </header>
         <section>
           <h3>You're Not Alone</h3>
@@ -21,7 +21,6 @@ class Hero extends React.Component {
           <Link to='/approved-suggestions'>View approved suggestions</Link>
         </section>
         <section>
-          <h3>Sign Up!</h3>
           <SignUpForm />
         </section>
       </section>

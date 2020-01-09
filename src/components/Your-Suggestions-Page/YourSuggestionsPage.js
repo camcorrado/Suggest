@@ -30,108 +30,127 @@ export default class YourSuggestionsPage extends React.Component {
         userSuggestions.push(this.context.suggestions[i])
       }
     }
-
-    return (
-      <section className='suggestionsList'>
-        <h1>Here's what you had to say:</h1>
-        <SortByForm />
-        {this.context.sortBy === 'newest' && 
-          <ul>
-          {userSuggestions.sort((a, b) => b.id - a.id).map(suggestion =>
-            <li key={suggestion.id}>
-              <Suggestion
-                id={suggestion.id}
-                userId={suggestion.userId}
-                name={suggestion.name}
-                content={suggestion.content}
-                date_published={suggestion.date_published}
-                date_modified={suggestion.date_modified}
-                upvotes={suggestion.upvotes}
-                approved={suggestion.approved}
-                date_approved={suggestion.date_approved}
-              />
-              {suggestion.approved === false &&
-                <Link to={`/edit-suggestion/${suggestion.id}`}>
-                  Edit
-                </Link>
-              }
-              {suggestion.approved === false &&
-                <button onClick={(e) => this.handleClickDelete(e, suggestion.id)}>
-                    Delete
-                </button>
-              }
-              {suggestion.approved === true &&
-                <p className='suggestionApproved'>Congratulations! This suggestion was approved!</p>
-              }
-            </li>
-          )}
-        </ul>
-        }
-        {this.context.sortBy === 'oldest' && 
-          <ul>
-          {userSuggestions.sort((a, b) => a.id - b.id).map(suggestion =>
-            <li key={suggestion.id}>
-              <Suggestion
-                id={suggestion.id}
-                userId={suggestion.userId}
-                name={suggestion.name}
-                content={suggestion.content}
-                date_published={suggestion.date_published}
-                date_modified={suggestion.date_modified}
-                upvotes={suggestion.upvotes}
-                approved={suggestion.approved}
-                date_approved={suggestion.date_approved}
-              />
-              {suggestion.approved === false &&
-                <Link to={`/edit-suggestion/${suggestion.id}`}>
-                  Edit
-                </Link>
-              }
-              {suggestion.approved === false &&
-                <button onClick={(e) => this.handleClickDelete(e, suggestion.id)}>
-                    Delete
-                </button>
-              }
-              {suggestion.approved === true &&
-                <p className='suggestionApproved'>Congratulations! This suggestion was approved!</p>
-              }
-            </li>
-          )}
-        </ul>
-        }
-        {this.context.sortBy === 'upvotes' && 
-          <ul>
-          {userSuggestions.sort((a, b) => b.upvotes - a.upvotes).map(suggestion =>
-            <li key={suggestion.id}>
-              <Suggestion
-                id={suggestion.id}
-                userId={suggestion.userId}
-                name={suggestion.name}
-                content={suggestion.content}
-                date_published={suggestion.date_published}
-                date_modified={suggestion.date_modified}
-                upvotes={suggestion.upvotes}
-                approved={suggestion.approved}
-                date_approved={suggestion.date_approved}
-              />
-              {suggestion.approved === false &&
-                <Link to={`/edit-suggestion/${suggestion.id}`}>
-                  Edit
-                </Link>
-              }
-              {suggestion.approved === false &&
-                <button onClick={(e) => this.handleClickDelete(e, suggestion.id)}>
-                    Delete
-                </button>
-              }
-              {suggestion.approved === true &&
-                <p className='suggestionApproved'>Congratulations! This suggestion was approved!</p>
-              }
-            </li>
-          )}
-        </ul>
-        }
-      </section>
-    )
+    // No Self-Submitted Suggestions as Employee User
+    if (userSuggestions.length === 0) {
+      return (
+        <section className='suggestionsList'>
+          <h1>You haven't made any suggestions yet!</h1>
+          <Link to='/submit-suggestions'>Click here to make a suggestion!</Link>
+        </section>
+      )
+    // Self-Submitted Suggestions as Employee User
+    } else {
+      return (
+        <section className='suggestionsList'>
+          <h1>Here's what you had to say:</h1>
+          <SortByForm />
+          {this.context.sortBy === 'newest' && 
+            <ul>
+            {userSuggestions.sort((a, b) => b.id - a.id).map(suggestion =>
+              <li key={suggestion.id}>
+                <Suggestion
+                  id={suggestion.id}
+                  userId={suggestion.userId}
+                  name={suggestion.name}
+                  content={suggestion.content}
+                  date_published={suggestion.date_published}
+                  date_modified={suggestion.date_modified}
+                  upvotes={suggestion.upvotes}
+                  approved={suggestion.approved}
+                  date_approved={suggestion.date_approved}
+                />
+                {suggestion.approved === false &&
+                  <Link 
+                    to={`/edit-suggestion/${suggestion.id}`} 
+                    className='makeButton'
+                  >
+                    Edit
+                  </Link>
+                }
+                {suggestion.approved === false &&
+                  <button onClick={(e) => this.handleClickDelete(e, suggestion.id)}>
+                      Delete
+                  </button>
+                }
+                {suggestion.approved === true &&
+                  <p className='suggestionApproved'>Congratulations! This suggestion was approved!</p>
+                }
+              </li>
+            )}
+          </ul>
+          }
+          {this.context.sortBy === 'oldest' && 
+            <ul>
+            {userSuggestions.sort((a, b) => a.id - b.id).map(suggestion =>
+              <li key={suggestion.id}>
+                <Suggestion
+                  id={suggestion.id}
+                  userId={suggestion.userId}
+                  name={suggestion.name}
+                  content={suggestion.content}
+                  date_published={suggestion.date_published}
+                  date_modified={suggestion.date_modified}
+                  upvotes={suggestion.upvotes}
+                  approved={suggestion.approved}
+                  date_approved={suggestion.date_approved}
+                />
+                {suggestion.approved === false &&
+                  <Link 
+                    to={`/edit-suggestion/${suggestion.id}`} 
+                    className='makeButton'
+                  >
+                    Edit
+                  </Link>
+                }
+                {suggestion.approved === false &&
+                  <button onClick={(e) => this.handleClickDelete(e, suggestion.id)}>
+                      Delete
+                  </button>
+                }
+                {suggestion.approved === true &&
+                  <p className='suggestionApproved'>Congratulations! This suggestion was approved!</p>
+                }
+              </li>
+            )}
+          </ul>
+          }
+          {this.context.sortBy === 'upvotes' && 
+            <ul>
+            {userSuggestions.sort((a, b) => b.upvotes - a.upvotes).map(suggestion =>
+              <li key={suggestion.id}>
+                <Suggestion
+                  id={suggestion.id}
+                  userId={suggestion.userId}
+                  name={suggestion.name}
+                  content={suggestion.content}
+                  date_published={suggestion.date_published}
+                  date_modified={suggestion.date_modified}
+                  upvotes={suggestion.upvotes}
+                  approved={suggestion.approved}
+                  date_approved={suggestion.date_approved}
+                />
+                {suggestion.approved === false &&
+                  <Link 
+                    to={`/edit-suggestion/${suggestion.id}`} 
+                    className='makeButton'
+                  >
+                    Edit
+                  </Link>
+                }
+                {suggestion.approved === false &&
+                  <button onClick={(e) => this.handleClickDelete(e, suggestion.id)}>
+                      Delete
+                  </button>
+                }
+                {suggestion.approved === true &&
+                  <p className='suggestionApproved'>Congratulations! This suggestion was approved!</p>
+                }
+              </li>
+            )}
+          </ul>
+          }
+        </section>
+      )
+    }
   }
 }

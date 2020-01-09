@@ -124,12 +124,14 @@ class SubmitForm extends React.Component {
           <Link
             to={`/demo-employee`}
             onClick={this.handleSubmit}
+            className='makeButton'
           >
             Submit
           </Link> : 
           <Link 
             to={`/submit-suggestions`} 
             onClick={this.handleSubmit}
+            className='makeButton'
           >
             Submit
           </Link>

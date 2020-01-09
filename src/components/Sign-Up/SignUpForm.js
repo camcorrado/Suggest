@@ -146,63 +146,68 @@ class SignUpForm extends React.Component {
     const passwordError = this.validatePassword()
 
     return (
-      <form id='signup-form'>
-        <div>
-          <label htmlFor='first-name'>First name</label>
-          <input 
-            placeholder='First Name' 
-            type='text' 
-            name='first-name' 
-            id='first-name' 
-            onChange={e => this.updateFirstName(e.target.value)} 
-            aria-required='true'
-          />
-          {this.state.firstName.touched && <ValidationError message={firstNameError} />}
-        </div>
-        <div>
-          <label htmlFor='last-name'>Last name</label>
-          <input 
-            type='text'
-            name='last-name' 
-            id='last-name' 
-            placeholder='Last Name' 
-            onChange={e => this.updateLastName(e.target.value)} 
-            aria-required='true'
-          />
-          {this.state.lastName.touched && <ValidationError message={lastNameError} />}
-        </div>
-        <div>
-          <label htmlFor='username'>Email</label>
-          <input 
-            type='text' 
-            name='username'
-            id='username' 
-            onChange={e => this.updateEmail(e.target.value)} 
-            aria-required='true' 
-          />
-          {this.state.email.touched && <ValidationError message={emailError} />}
-        </div>
-        <div>
-          <label htmlFor='password'>Password</label>
-          <input 
-            type='password' 
-            name='password' 
-            id='password' 
-            maxLength='16' 
-            onChange={e => this.updatePassword(e.target.value)} 
-            aria-required='true' 
-          />
-          {this.state.password.touched && <ValidationError message={passwordError} />}
-        </div>
-        <div id='submitMessage'>
-        </div>
-        <button
-          type='submit' 
-          onClick={this.handleSubmit}
-        >
-          {this.state.button.value}
-        </button>
-      </form>     
+      <section>
+        <header>
+          <h3>Sign up to start submitting!</h3>
+        </header>
+        <form id='signup-form'>
+          <div>
+            <label htmlFor='first-name'>First name</label>
+            <input 
+              placeholder='First Name' 
+              type='text' 
+              name='first-name' 
+              id='first-name' 
+              onChange={e => this.updateFirstName(e.target.value)} 
+              aria-required='true'
+            />
+            {this.state.firstName.touched && <ValidationError message={firstNameError} />}
+          </div>
+          <div>
+            <label htmlFor='last-name'>Last name</label>
+            <input 
+              type='text'
+              name='last-name' 
+              id='last-name' 
+              placeholder='Last Name' 
+              onChange={e => this.updateLastName(e.target.value)} 
+              aria-required='true'
+            />
+            {this.state.lastName.touched && <ValidationError message={lastNameError} />}
+          </div>
+          <div>
+            <label htmlFor='username'>Email</label>
+            <input 
+              type='text' 
+              name='username'
+              id='username' 
+              onChange={e => this.updateEmail(e.target.value)} 
+              aria-required='true' 
+            />
+            {this.state.email.touched && <ValidationError message={emailError} />}
+          </div>
+          <div>
+            <label htmlFor='password'>Password</label>
+            <input 
+              type='password' 
+              name='password' 
+              id='password' 
+              maxLength='16' 
+              onChange={e => this.updatePassword(e.target.value)} 
+              aria-required='true' 
+            />
+            {this.state.password.touched && <ValidationError message={passwordError} />}
+          </div>
+          <div id='submitMessage'>
+          </div>
+          <button
+            type='submit' 
+            onClick={this.handleSubmit}
+          >
+            {this.state.button.value}
+          </button>
+        </form>
+      </section>     
     )
   }
 }
