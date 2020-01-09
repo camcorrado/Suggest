@@ -14,17 +14,29 @@ import YourSuggestionsPage from '../Your-Suggestions-Page/YourSuggestionsPage.js
 class App extends React.Component {
   state = {
     suggestions: [],
-    user: 'default'
+    user: 'default',
+    sortBy: 'newest'
   }
 
   componentDidMount() {
     setTimeout(() => this.setState(DummySuggestions), 600)
   }
 
-  handleAddSuggestion = (newSuggestion) => {
+  handleChangeUser = (newUser) => {
     this.setState({
-      suggestions: [ newSuggestion, ...this.state.suggestions ],
+      user: newUser
     })
+  }
+
+  handleAddSuggestion = (newSuggestion) => {
+    newSuggestion.date_published = new Date().toDateString()
+    console.log(newSuggestion)
+    this.setState(prevState => {
+        const newId = prevState.suggestions.length + 1
+        newSuggestion.id = newId
+        const suggestions = [ newSuggestion, ...this.state.suggestions ]
+        return { suggestions }
+      })
   }
 
   handleEditSuggestion = (suggestionId, newName, newContent, newModifiedDate) => {
@@ -44,9 +56,36 @@ class App extends React.Component {
     })
   }
 
-  handleChangeUser = (newUser) => {
+  handleApproveChange = (suggestionId, newDate) => {
+    for (let i = 0; i < this.state.suggestions.length; i++) {
+      if (this.state.suggestions[i].id === suggestionId) {
+        this.setState(prevState => {
+          const suggestions = [...prevState.suggestions]
+          const index = suggestions.findIndex(s => s.id === suggestionId)
+          suggestions[index].approved = true
+          suggestions[index].date_approved = newDate
+          return { suggestions }
+        })
+      }
+    }
+  }
+
+  handleChangeUpvotes = (suggestionId, newUpvotes) => {
+    for (let i = 0; i < this.state.suggestions.length; i++) {
+      if (this.state.suggestions[i].id === suggestionId) {
+        this.setState(prevState => {
+          const suggestions = [...prevState.suggestions]
+          const index = suggestions.findIndex(s => s.id === suggestionId)
+          suggestions[index].upvotes = newUpvotes
+          return { suggestions }
+        })
+      }
+    }
+  }
+
+  handleSortByChange = (value) => {
     this.setState({
-      user: newUser
+      sortBy: value
     })
   }
 
@@ -54,24 +93,28 @@ class App extends React.Component {
     const value = {
       suggestions: this.state.suggestions,
       user: this.state.user,
+      sortBy: this.state.sortBy,
       changeUser: this.handleChangeUser,
       addSuggestion: this.handleAddSuggestion,
       editSuggestion: this.handleEditSuggestion,
-      deleteSuggestion: this.handleDeleteSuggestion
+      deleteSuggestion: this.handleDeleteSuggestion,
+      handleApprove: this.handleApproveChange,
+      handleUpvote: this.handleChangeUpvotes,
+      handleSortBy: this.handleSortByChange
     }
 
     return (
       <ApiContext.Provider value={value}>
         <main className='App'>
           <Nav />
-          <Route exact path="/" component={Hero} />
-          <Route path="/approved-suggestions" component={ApprovedSuggestionsPage} />
-          <Route path="/edit-suggestion/:suggestionId" component={EditSuggestionPage} />
-          <Route path="/demo-employee" component={YourSuggestionsPage} />
-          <Route path="/demo-adminUser" component={ViewSuggestionsPage} />
-          <Route path="/submit-suggestions" component={SubmitPage} />
-          <Route path="/suggestion/:suggestionId" component={SuggestionPage} />
-          <Route path="/view-suggestions" component={ViewSuggestionsPage} />
+          <Route exact path='/' component={Hero} />
+          <Route path='/approved-suggestions' component={ApprovedSuggestionsPage} />
+          <Route path='/edit-suggestion/:suggestionId' component={EditSuggestionPage} />
+          <Route path='/demo-employee' component={YourSuggestionsPage} />
+          <Route path='/demo-adminUser' component={ViewSuggestionsPage} />
+          <Route path='/submit-suggestions' component={SubmitPage} />
+          <Route path='/suggestion/:suggestionId' component={SuggestionPage} />
+          <Route path='/view-suggestions' component={ViewSuggestionsPage} />
         </main>
       </ApiContext.Provider>
     )

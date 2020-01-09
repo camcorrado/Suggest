@@ -9,26 +9,30 @@ class SubmitForm extends React.Component {
 
     this.state = {
       newSuggestion: {
-        "id": null,
-        "user id": 100,
-        "name": '',
-        "content": '',
-        "date_published": null,
-        "date_modified": null,
-        "approved": false,
-        "date_approved": null,
-        "upvotes": 0,
+        'id': null,
+        'userId': 100,
+        'name': '',
+        'content': '',
+        'date_published': null,
+        'date_modified': null,
+        'approved': false,
+        'date_approved': null,
+        'upvotes': 0,
       },
       nameChange: {
-        value: "",
-        pressed: false
+        value: '',
+        touched: false
       },
       contentChange: {
-        value: "",
-        pressed: false
+        value: '',
+        touched: false
       }
     }
 
+    this.updateName = this.updateName.bind(this)
+    this.updateContent = this.updateContent.bind(this)
+    this.validateName = this.validateName.bind(this)
+    this.validateContent = this.validateContent.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
@@ -39,15 +43,11 @@ class SubmitForm extends React.Component {
   }
 
   updateName(name) {
-    let id = this.context.suggestions.length + 1
-    let date = new Date().toDateString()
     this.setState({ nameChange: { value: name, touched: true } })
     this.setState(prevState => ({
       newSuggestion: {
         ...prevState.newSuggestion,
-        "name": name,
-        "id": id,
-        "date_published": date
+        'name': name
       }
     }))
   }
@@ -57,7 +57,7 @@ class SubmitForm extends React.Component {
     this.setState(prevState => ({
       newSuggestion: {
         ...prevState.newSuggestion,
-        "content": content
+        'content': content
       }
     }))
   }
@@ -65,9 +65,9 @@ class SubmitForm extends React.Component {
   validateName() {
     const name = this.state.nameChange.value.trim()
     if (name.length === 0) {
-      return "Suggestion Name is required"
+      return 'Suggestion Name is required'
     } else if (name.length < 3) {
-      return "Suggestion Name must be at least 3 characters long"
+      return 'Suggestion Name must be at least 3 characters long'
     } else {
       return true
     }
@@ -76,9 +76,9 @@ class SubmitForm extends React.Component {
   validateContent() {
     const content = this.state.contentChange.value.trim()
     if (content.length === 0) {
-      return "Suggestion Content is required"
+      return 'Suggestion Content is required'
     } else if (content.length < 20) {
-      return "Suggestion Content  must be at least 20 characters long"
+      return 'Suggestion Content  must be at least 20 characters long'
     } else {
       return true
     }
@@ -88,7 +88,7 @@ class SubmitForm extends React.Component {
     if (this.validateName(this.state.newSuggestion.name) === true && this.validateContent(this.state.newSuggestion.content) === true) {
       this.context.addSuggestion(this.state.newSuggestion)
     } else {
-      document.getElementById("submitMessage").innerHTML = `<p>Please enter valid information.</p>`
+      document.getElementById('submitMessage').innerHTML = `<p>Please enter valid information.</p>`
     }
   }
 
@@ -96,25 +96,25 @@ class SubmitForm extends React.Component {
     const nameError = this.validateName()
     const contentError = this.validateContent()
     return (
-      <form id="record-suggestion">
-        <div className="form-section">
-          <label htmlFor="suggestion-title">Suggestion Title</label>
+      <form id='record-suggestion'>
+        <div className='form-section'>
+          <label htmlFor='suggestion-title'>Suggestion Title</label>
           <input 
-            type="text" 
-            name="suggestion-title" 
-            placeholder="What needs change?" 
+            type='text' 
+            name='suggestion-title'
+            placeholder='What needs change?' 
             onChange={e => this.updateName(e.target.value)} 
-            aria-required="true"
+            aria-required='true'
           />
           {this.state.nameChange.touched && <ValidationError message={nameError} />}
         </div>
-        <div className="form-section">
-          <label htmlFor="suggestion-summary">Suggestion summary</label>
+        <div className='form-section'>
+          <label htmlFor='suggestion-summary'>Suggestion summary</label>
           <textarea
-            name="suggestion-summary" 
-            rows="15" 
+            name='suggestion-summary'
+            rows='15' 
             onChange={e => this.updateContent(e.target.value)} 
-            aria-required="true"
+            aria-required='true'
           ></textarea>
           {this.state.contentChange.touched && <ValidationError message={contentError} />}
         </div>
@@ -134,7 +134,7 @@ class SubmitForm extends React.Component {
             Submit
           </Link>
         }
-        <button type="reset">Reset</button>
+        <button type='reset'>Reset</button>
       </form>        
     )
   }

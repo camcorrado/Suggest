@@ -3,10 +3,6 @@ import React from 'react'
 import Suggestion from '../Suggestion/Suggestion'
 
 export default class SuggestionPage extends React.Component {
-  constructor(props) {
-    super(props)
-    this.handleUpvote = this.handleUpvote.bind(this)
-  }
 
   static contextType = ApiContext
 
@@ -19,26 +15,6 @@ export default class SuggestionPage extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.upvotes !== prevProps.upvotes) {
       this.fetchData(this.props.upvotes)
-    }
-  }
-
-  handleUpvote(e, suggestionId) {
-    e.preventDefault()
-    for (let i = 0; i < this.context.suggestions.length; i++) {
-      if (this.context.suggestions[i].id.toString() === suggestionId) {
-        this.context.suggestions[i].upvotes++
-        document.getElementById("upvoteButton").innerHTML = `<button type="submit" onClick={e => this.handleDownvote(e, suggestionId)}>Downvote</button>`
-      }
-    }
-  }
-
-  handleDownvote(e, suggestionId) {
-    e.preventDefault()
-    for (let i = 0; i < this.context.suggestions.length; i++) {
-      if (this.context.suggestions[i].id.toString() === suggestionId) {
-        this.context.suggestions[i].upvotes = this.context.suggestions[i].upvotes - 1
-        document.getElementById("upvoteButton").innerHTML = `<button type="submit" onClick={e => this.handleUpvote(e, suggestionId)}>Upvote</button>`
-      }
     }
   }
   
@@ -78,10 +54,10 @@ export default class SuggestionPage extends React.Component {
           />
           <div id='upvoteButton'>
             <button 
-              type="submit"
+              type='submit'
               onClick={e => this.handleUpvote(e, suggestionId)}
             >
-              Upvote
+              {this.state.upvoteButton}
             </button>
           </div>
         </section>   

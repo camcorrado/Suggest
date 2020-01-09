@@ -45,25 +45,25 @@ class EditSuggestionForm extends React.Component {
 
   render() {
     return (
-      <form id="record-suggestion">
-          <div className="form-section">
-            <label htmlFor="suggestion-title">Suggestion Title</label>
+      <form id='record-suggestion'>
+          <div className='form-section'>
+            <label htmlFor='suggestion-title'>Suggestion Title</label>
             <input 
-              type="text" 
-              name="suggestion-title" 
+              type='text' 
+              name='suggestion-title' 
               value={this.state.name.value} 
               onChange={e => this.handleChangeName(e.target.value)} 
-              aria-required="true" 
+              aria-required='true'
             />
           </div>
-          <div className="form-section">
-            <label htmlFor="suggestion-summary">Suggestion summary</label>
+          <div className='form-section'>
+            <label htmlFor='suggestion-summary'>Suggestion summary</label>
             <textarea
-              name="suggestion-summary"
+              name='suggestion-summary'
               value={this.state.content.value}
               onChange={e => this.handleChangeContent(e.target.value)}
-              rows="15"
-              aria-required="true"
+              rows='15'
+              aria-required='true'
             ></textarea>
           </div>
           <Link

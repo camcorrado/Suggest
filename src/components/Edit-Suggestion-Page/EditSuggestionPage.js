@@ -9,13 +9,13 @@ class EditSuggestionPage extends React.Component {
     let suggestionId = this.props.match.params.suggestionId
     let editable = {}
     for (let i = 0; i < this.context.suggestions.length; i++) {
-      if (this.context.suggestions[i]["id"].toString() === suggestionId) {
+      if (this.context.suggestions[i]['id'].toString() === suggestionId) {
         Object.assign(editable, this.context.suggestions[i])
       }
     }
 
     return (
-      <section className="editSuggestionPage">
+      <section className='editSuggestionPage'>
         <header>
           <h1>Make Some Changes:</h1>
         </header>

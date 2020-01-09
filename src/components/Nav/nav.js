@@ -5,6 +5,7 @@ import React from 'react'
 class Nav extends React.Component {
   constructor(props) {
     super(props)
+    
     this.handleChangeUser = this.handleChangeUser.bind(this)
   }
 
@@ -21,7 +22,7 @@ class Nav extends React.Component {
   render() {
     if (this.context.user === 'default') {
       return (
-        <nav role="navigation">
+        <nav role='navigation'>
           <Link to='/'>
             Home
           </Link>
@@ -35,7 +36,7 @@ class Nav extends React.Component {
       )
     } else if (this.context.user === 'employee') {
       return (
-        <nav role="navigation">
+        <nav role='navigation'>
           <Link to='/' onClick={() => {this.handleChangeUser('default')}}>
             Home
           </Link>
@@ -55,7 +56,7 @@ class Nav extends React.Component {
       )
     } else if (this.context.user === 'admin') {
       return (
-        <nav role="navigation">
+        <nav role='navigation'>
           <Link to='/' onClick={() => {this.handleChangeUser('default')}}>
             Home
           </Link>

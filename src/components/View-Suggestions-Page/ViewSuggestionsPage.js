@@ -1,83 +1,151 @@
 import ApiContext from '../../ApiContext'
 import React from 'react'
+import SortByForm from '../SortByForm'
 import Suggestion from '../Suggestion/Suggestion'
 
 export default class ViewSuggestionsPage extends React.Component {
+
   static contextType = ApiContext
-  
+
   render() {
-    if (this.context.user === 'default') {
-      return (
-        <section className='suggestionsList'>
-          <h1>Here's what other's had to say:</h1>
-          <ul>
-            {this.context.suggestions.sort((a, b) => b.id - a.id).map(suggestion =>
-              <li key={suggestion.id}>
-                <Suggestion
-                  id={suggestion.id}
-                  name={suggestion.name}
-                  content={suggestion.content}
-                  date_published={suggestion.date_published}
-                  date_modified={suggestion.date_modified}
-                  upvotes={suggestion.upvotes}
-                />
-              </li>
-            )}
-          </ul>
-        </section>
-      )
-    } else if (this.context.user === 'employee') {
+    if (this.context.user === 'employee') {
         let otherUserSuggestions = []
         for (let i = 0; i < this.context.suggestions.length; i++) {
-          if (this.context.suggestions[i]["user id"] !== 100) {
+          if (this.context.suggestions[i].userId !== 100) {
             otherUserSuggestions.push(this.context.suggestions[i])
           }
         }
         return (
           <section className='suggestionsList'>
             <h1>Here's what other's had to say:</h1>
-            <ul>
-              {otherUserSuggestions.sort((a, b) => b.id - a.id).map(suggestion =>
+            <SortByForm />
+            {this.context.sortBy === 'newest' &&
+              <ul>
+                {otherUserSuggestions.sort((a, b) => b.id - a.id).map(suggestion =>
+                  <li key={suggestion.id}>
+                    <Suggestion
+                      id={suggestion.id}
+                      userId={suggestion.userId}
+                      name={suggestion.name}
+                      content={suggestion.content}
+                      date_published={suggestion.date_published}
+                      date_modified={suggestion.date_modified}
+                      upvotes={suggestion.upvotes}
+                      approved={suggestion.approved}
+                      date_approved={suggestion.date_approved}
+                    />
+                  </li>
+                )}
+              </ul>
+            }
+            {this.context.sortBy === 'oldest' &&
+              <ul>
+                {otherUserSuggestions.sort((a, b) => a.id - b.id).map(suggestion =>
+                  <li key={suggestion.id}>
+                    <Suggestion
+                      id={suggestion.id}
+                      userId={suggestion.userId}
+                      name={suggestion.name}
+                      content={suggestion.content}
+                      date_published={suggestion.date_published}
+                      date_modified={suggestion.date_modified}
+                      upvotes={suggestion.upvotes}
+                      approved={suggestion.approved}
+                      date_approved={suggestion.date_approved}
+                    />
+                  </li>
+                )}
+              </ul>
+            } 
+            {this.context.sortBy === 'upvotes' && 
+              <ul>
+              {otherUserSuggestions.sort((a, b) => b.upvotes - a.upvotes).map(suggestion =>
                 <li key={suggestion.id}>
                   <Suggestion
                     id={suggestion.id}
+                    userId={suggestion.userId}
                     name={suggestion.name}
                     content={suggestion.content}
                     date_published={suggestion.date_published}
                     date_modified={suggestion.date_modified}
                     upvotes={suggestion.upvotes}
+                    approved={suggestion.approved}
+                    date_approved={suggestion.date_approved}
                   />
-                  <button>Upvote</button>
                 </li>
-              )}
-            </ul>
+                )}
+              </ul>
+            } 
           </section>
         )
-    } else if (this.context.user === 'admin') {
-      let unapproavedSuggestions = []
+    } else {
+      let unapprovedSuggestions = []
       for (let i = 0; i < this.context.suggestions.length; i++) {
         if (this.context.suggestions[i].approved === false) {
-          unapproavedSuggestions.push(this.context.suggestions[i])
+          unapprovedSuggestions.push(this.context.suggestions[i])
         }
       }
       return (
         <section className='suggestionsList'>
           <h1>Here's what other's had to say:</h1>
-          <ul>
-            {unapproavedSuggestions.sort((a, b) => b.id - a.id).map(suggestion =>
-              <li key={suggestion.id}>
-                <Suggestion
-                  id={suggestion.id}
-                  name={suggestion.name}
-                  content={suggestion.content}
-                  date_published={suggestion.date_published}
-                  date_modified={suggestion.date_modified}
-                  upvotes={suggestion.upvotes}
-                />
-                <button>Approve</button>
-              </li>
-            )}
-          </ul>
+          <SortByForm />
+          {this.context.sortBy === 'newest' &&
+            <ul>
+              {unapprovedSuggestions.sort((a, b) => b.id - a.id).map(suggestion =>
+                <li key={suggestion.id}>
+                  <Suggestion
+                    id={suggestion.id}
+                    userId={suggestion.userId}
+                    name={suggestion.name}
+                    content={suggestion.content}
+                    date_published={suggestion.date_published}
+                    date_modified={suggestion.date_modified}
+                    upvotes={suggestion.upvotes}
+                    approved={suggestion.approved}
+                    date_approved={suggestion.date_approved}
+                  />
+                </li>
+              )}
+            </ul>
+          }
+          {this.context.sortBy === 'oldest' &&
+            <ul>
+              {unapprovedSuggestions.sort((a, b) => a.id - b.id).map(suggestion =>
+                <li key={suggestion.id}>
+                  <Suggestion
+                    id={suggestion.id}
+                    userId={suggestion.userId}
+                    name={suggestion.name}
+                    content={suggestion.content}
+                    date_published={suggestion.date_published}
+                    date_modified={suggestion.date_modified}
+                    upvotes={suggestion.upvotes}
+                    approved={suggestion.approved}
+                    date_approved={suggestion.date_approved}
+                  />
+                </li>
+              )}
+            </ul>
+          }
+          {this.context.sortBy === 'upvotes' &&
+            <ul>
+              {unapprovedSuggestions.sort((a, b) => b.upvotes - a.upvotes).map(suggestion =>
+                <li key={suggestion.id}>
+                  <Suggestion
+                    id={suggestion.id}
+                    userId={suggestion.userId}
+                    name={suggestion.name}
+                    content={suggestion.content}
+                    date_published={suggestion.date_published}
+                    date_modified={suggestion.date_modified}
+                    upvotes={suggestion.upvotes}
+                    approved={suggestion.approved}
+                    date_approved={suggestion.date_approved}
+                  />
+                </li>
+              )}
+            </ul>
+          }
         </section>
       )
     }
