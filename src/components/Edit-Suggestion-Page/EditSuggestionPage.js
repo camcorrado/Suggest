@@ -21,7 +21,7 @@ class EditSuggestionPage extends React.Component {
         </header>
         <EditSuggestionForm
           id={editable.id}
-          name={editable.name}
+          title={editable.title}
           content={editable.content}
         />
       </section>

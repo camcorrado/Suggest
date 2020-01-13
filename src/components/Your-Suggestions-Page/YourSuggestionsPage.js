@@ -51,7 +51,7 @@ export default class YourSuggestionsPage extends React.Component {
                 <Suggestion
                   id={suggestion.id}
                   userId={suggestion.userId}
-                  name={suggestion.name}
+                  title={suggestion.title}
                   content={suggestion.content}
                   date_published={suggestion.date_published}
                   date_modified={suggestion.date_modified}
@@ -86,7 +86,7 @@ export default class YourSuggestionsPage extends React.Component {
                 <Suggestion
                   id={suggestion.id}
                   userId={suggestion.userId}
-                  name={suggestion.name}
+                  title={suggestion.title}
                   content={suggestion.content}
                   date_published={suggestion.date_published}
                   date_modified={suggestion.date_modified}
@@ -121,7 +121,7 @@ export default class YourSuggestionsPage extends React.Component {
                 <Suggestion
                   id={suggestion.id}
                   userId={suggestion.userId}
-                  name={suggestion.name}
+                  title={suggestion.title}
                   content={suggestion.content}
                   date_published={suggestion.date_published}
                   date_modified={suggestion.date_modified}

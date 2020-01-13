@@ -3,7 +3,7 @@ export default {
         {
             'id': 1,
             'userId': 100,
-            'name': 'Fridays At Home',
+            'title': 'Fridays At Home',
             'content': 'I think we should work from home on Fridays!',
             'date_published': 'Fri Jan 03 2020',
             'date_modified': 'Tue Jan 07 2020',
@@ -14,7 +14,7 @@ export default {
         {
             'id': 2,
             'userId': 100,
-            'name': 'Second Fridge',
+            'title': 'Second Fridge',
             'content': 'I think we should have two fridges: one for municiple food and another for private food!',
             'date_published': 'Mon Jan 06 2020',
             'date_modified': null,
@@ -25,7 +25,7 @@ export default {
         {
             'id': 3,
             'userId': 200,
-            'name': 'More PTO',
+            'title': 'More PTO',
             'content': 'We need more vacation time!',
             'date_published': 'Mon Jan 06 2020',
             'date_modified': null,
@@ -36,7 +36,7 @@ export default {
         {
             'id': 4,
             'userId': 300,
-            'name': 'Even More PTO',
+            'title': 'Even More PTO',
             'content': 'We need even more vacation time!',
             'date_published': 'Wed Jan 08 2020',
             'date_modified': null,
@@ -48,7 +48,7 @@ export default {
         {
             'id': 5,
             'userId': 200,
-            'name': 'Holiday Party',
+            'title': 'Holiday Party',
             'content': "Let's celebrate the holidays next year to boost morale!",
             'date_published': 'Wed Jan 08 2020',
             'date_modified': null,
@@ -60,7 +60,7 @@ export default {
         {
             'id': 6,
             'userId': 400,
-            'name': 'SodaStream',
+            'title': 'SodaStream',
             'content': 'There should be an office SodaStream!',
             'date_published': 'Wed Jan 08 2020',
             'date_modified': null,
@@ -72,7 +72,7 @@ export default {
         {
             'id': 7,
             'userId': 500,
-            'name': 'Gaming Lounge',
+            'title': 'Gaming Lounge',
             'content': 'A gaming lounge would be awesome for morale and during break time!',
             'date_published': 'Wed Jan 08 2020',
             'date_modified': 'Thu Jan 09 2020',
@@ -84,7 +84,7 @@ export default {
         {
             'id': 8,
             'userId': 100,
-            'name': 'Upgrade to Standing Desks',
+            'title': 'Upgrade to Standing Desks',
             'content': 'Sitting all day is bad for your health!',
             'date_published': 'Thu Jan 09 2020',
             'date_modified': null,
@@ -96,7 +96,7 @@ export default {
         {
             'id': 9,
             'userId': 600,
-            'name': 'Office Gym',
+            'title': 'Office Gym',
             'content': 'We should install a gym to workout during breaks!',
             'date_published': 'Thu Jan 09 2020',
             'date_modified': null,
@@ -108,7 +108,7 @@ export default {
         {
             'id': 10,
             'userId': 700,
-            'name': 'Genderless Bathrooms',
+            'title': 'Genderless Bathrooms',
             'content': 'Get with the times! Gender is a social construct.',
             'date_published': 'Thu Jan 09 2020',
             'date_modified': null,

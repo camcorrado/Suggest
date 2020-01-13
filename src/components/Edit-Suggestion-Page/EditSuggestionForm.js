@@ -7,8 +7,8 @@ class EditSuggestionForm extends React.Component {
     super(props)
 
     this.state = {
-      name: {
-        value: this.props.name
+      title: {
+        value: this.props.title
       },
       content: {
         value: this.props.content
@@ -16,7 +16,7 @@ class EditSuggestionForm extends React.Component {
       date_modified: null
     }
 
-    this.handleChangeName = this.handleChangeName.bind(this)
+    this.handleChangeTitle = this.handleChangeTitle.bind(this)
     this.handleChangeContent = this.handleChangeContent.bind(this)
     this.handleClickSubmit = this.handleClickSubmit.bind(this)
   }
@@ -27,8 +27,8 @@ class EditSuggestionForm extends React.Component {
     editSuggestion: () => {}
   }
 
-  handleChangeName = e => {
-    this.setState({name: {value: e}})
+  handleChangeTitle = e => {
+    this.setState({title: {value: e}})
   }
 
   handleChangeContent = e => {
@@ -37,10 +37,10 @@ class EditSuggestionForm extends React.Component {
 
   handleClickSubmit = () => {
     const suggestionId = this.props.id
-    const newName = this.state.name.value
+    const newTitle = this.state.title.value
     const newContent = this.state.content.value
     const newModifiedDate = new Date().toDateString()
-    this.context.editSuggestion(suggestionId, newName, newContent, newModifiedDate)
+    this.context.editSuggestion(suggestionId, newTitle, newContent, newModifiedDate)
   }
 
   render() {
@@ -51,8 +51,8 @@ class EditSuggestionForm extends React.Component {
             <input 
               type='text' 
               name='suggestion-title' 
-              value={this.state.name.value} 
-              onChange={e => this.handleChangeName(e.target.value)} 
+              value={this.state.title.value} 
+              onChange={e => this.handleChangeTitle(e.target.value)} 
               aria-required='true'
             />
           </div>

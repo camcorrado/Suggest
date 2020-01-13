@@ -38,13 +38,13 @@ export default class Suggestion extends React.Component {
   
 
   render() {
-    const { userId, name, content, date_published, date_modified, approved, date_approved, upvotes } = this.props
+    const { userId, title, content, date_published, date_modified, approved, date_approved, upvotes } = this.props
 
     if (this.context.user === 'default') {
       return (
         <div className='Suggestion'>
           <h2 className='Suggestion__title'>
-            {name}
+            {title}
           </h2>
           <div className='Suggestion__content'>
             <span className='content'>
@@ -79,7 +79,7 @@ export default class Suggestion extends React.Component {
       return (
         <div className='Suggestion'>
           <h2 className='Suggestion__title'>
-            {name}
+            {title}
           </h2>
           <div className='Suggestion__content'>
             <span className='content'>
@@ -127,7 +127,7 @@ export default class Suggestion extends React.Component {
       return (
         <div className='Suggestion'>
           <h2 className='Suggestion__title'>
-            {name}
+            {title}
           </h2>
           <div className='Suggestion__content'>
             <span className='content'>

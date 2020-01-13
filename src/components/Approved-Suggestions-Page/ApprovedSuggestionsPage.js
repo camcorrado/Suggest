@@ -73,7 +73,7 @@ export default class ApprovedSuggestionsPage extends React.Component {
                 <li key={suggestion.id}>
                     <Suggestion
                       id={suggestion.id}
-                      name={suggestion.name}
+                      title={suggestion.title}
                       content={suggestion.content}
                       date_published={suggestion.date_published}
                       date_modified={suggestion.date_modified}
@@ -91,7 +91,7 @@ export default class ApprovedSuggestionsPage extends React.Component {
                 <li key={suggestion.id}>
                     <Suggestion
                       id={suggestion.id}
-                      name={suggestion.name}
+                      title={suggestion.title}
                       content={suggestion.content}
                       date_published={suggestion.date_published}
                       date_modified={suggestion.date_modified}
@@ -109,7 +109,7 @@ export default class ApprovedSuggestionsPage extends React.Component {
                 <li key={suggestion.id}>
                     <Suggestion
                       id={suggestion.id}
-                      name={suggestion.name}
+                      title={suggestion.title}
                       content={suggestion.content}
                       date_published={suggestion.date_published}
                       date_modified={suggestion.date_modified}
@@ -136,7 +136,7 @@ export default class ApprovedSuggestionsPage extends React.Component {
                 <li key={suggestion.id}>
                     <Suggestion
                       id={suggestion.id}
-                      name={suggestion.name}
+                      title={suggestion.title}
                       content={suggestion.content}
                       date_published={suggestion.date_published}
                       date_modified={suggestion.date_modified}
@@ -154,7 +154,7 @@ export default class ApprovedSuggestionsPage extends React.Component {
                 <li key={suggestion.id}>
                     <Suggestion
                       id={suggestion.id}
-                      name={suggestion.name}
+                      title={suggestion.title}
                       content={suggestion.content}
                       date_published={suggestion.date_published}
                       date_modified={suggestion.date_modified}
@@ -172,7 +172,7 @@ export default class ApprovedSuggestionsPage extends React.Component {
                 <li key={suggestion.id}>
                     <Suggestion
                       id={suggestion.id}
-                      name={suggestion.name}
+                      title={suggestion.title}
                       content={suggestion.content}
                       date_published={suggestion.date_published}
                       date_modified={suggestion.date_modified}

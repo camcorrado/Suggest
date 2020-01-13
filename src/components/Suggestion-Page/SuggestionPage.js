@@ -33,7 +33,7 @@ export default class SuggestionPage extends React.Component {
         <section className='suggestionsId'>
           <Suggestion
             id={suggestion.id}
-            name={suggestion.name}
+            title={suggestion.title}
             content={suggestion.content}
             date_published={suggestion.date_published}
             date_modified={suggestion.date_modified}
@@ -46,7 +46,7 @@ export default class SuggestionPage extends React.Component {
         <section className='SuggestionId'>
           <Suggestion
             id={suggestion.id}
-            name={suggestion.name}
+            natitleme={suggestion.title}
             content={suggestion.content}
             date_published={suggestion.date_published}
             date_modified={suggestion.date_modified}

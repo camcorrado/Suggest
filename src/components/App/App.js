@@ -39,11 +39,11 @@ class App extends React.Component {
       })
   }
 
-  handleEditSuggestion = (suggestionId, newName, newContent, newModifiedDate) => {
+  handleEditSuggestion = (suggestionId, newTitle, newContent, newModifiedDate) => {
     this.setState(prevState => {
       const suggestions = [...prevState.suggestions]
       const index = suggestions.findIndex(s => s.id === suggestionId)
-      suggestions[index].name = newName
+      suggestions[index].title = newTitle
       suggestions[index].content = newContent
       suggestions[index].date_modified = newModifiedDate
       return { suggestions }
