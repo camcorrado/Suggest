@@ -20,7 +20,11 @@ class App extends React.Component {
 
   componentDidMount() {
     fetch(config.API_ENDPOINT, {
-      method: 'GET'
+      method: 'GET',
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json"
+      }
     })
       .then(res => {
         if (!res.ok) {

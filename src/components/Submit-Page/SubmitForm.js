@@ -91,10 +91,7 @@ class SubmitForm extends React.Component {
     const suggestion = this.state.newSuggestion
     fetch(config.API_ENDPOINT, {
       method: 'POST',
-      body: JSON.stringify(suggestion),
-      headers: {
-        'content-type': 'application/json',
-      }
+      body: JSON.stringify(suggestion)
     })
       .then(res => {
         if (!res.ok) {
