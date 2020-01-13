@@ -1,6 +1,7 @@
 import ApiContext from '../../ApiContext'
 import ApprovedSuggestionsPage from '../Approved-Suggestions-Page/ApprovedSuggestionsPage'
 import config from '../../config'
+import DummySuggestions from '../../DummySuggestions'
 import EditSuggestionPage from '../Edit-Suggestion-Page/EditSuggestionPage'
 import Hero from '../Hero/Hero'
 import Nav from '../Nav/Nav'
@@ -20,11 +21,7 @@ class App extends React.Component {
 
   componentDidMount() {
     fetch(config.API_ENDPOINT, {
-      method: 'GET',
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json"
-      }
+      method: 'GET'
     })
       .then(res => {
         if (!res.ok) {
@@ -39,9 +36,10 @@ class App extends React.Component {
     })
   }
 
-  setSuggestions = suggestions => {
+  setSuggestions = () => {
+    console.log('setSuggestions ran')
     this.setState({
-      suggestions,
+      suggestions: DummySuggestions,
       user: 'default',
       sortBy: 'newest'
     })
@@ -55,7 +53,6 @@ class App extends React.Component {
 
   handleAddSuggestion = (newSuggestion) => {
     newSuggestion.date_published = new Date().toDateString()
-    console.log(newSuggestion)
     this.setState(prevState => {
         const newId = prevState.suggestions.length + 1
         newSuggestion.id = newId

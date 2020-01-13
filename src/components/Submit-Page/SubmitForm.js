@@ -86,7 +86,6 @@ class SubmitForm extends React.Component {
   }
 
   handleSubmit = e => {
-    console.log('submit started')
     e.preventDefault()
     const suggestion = this.state.newSuggestion
     fetch(config.API_ENDPOINT, {
@@ -107,10 +106,6 @@ class SubmitForm extends React.Component {
       .catch(error => {
         this.setState({ error })
       })
-
-
-
-
 
     if (this.validateTitle(this.state.newSuggestion.title) === true && this.validateContent(this.state.newSuggestion.content) === true) {
       this.context.addSuggestion(this.state.newSuggestion)
