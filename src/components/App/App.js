@@ -1,6 +1,6 @@
 import ApiContext from '../../ApiContext'
 import ApprovedSuggestionsPage from '../Approved-Suggestions-Page/ApprovedSuggestionsPage'
-import DummySuggestions from '../../DummySuggestions'
+import config from '../../config'
 import EditSuggestionPage from '../Edit-Suggestion-Page/EditSuggestionPage'
 import Hero from '../Hero/Hero'
 import Nav from '../Nav/Nav'
@@ -19,7 +19,28 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    setTimeout(() => this.setState(DummySuggestions), 600)
+    fetch(config.API_ENDPOINT, {
+      method: 'GET'
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.status)
+        }
+        return res.json()
+      })
+      .then(this.setSuggestions)
+      .catch(error => {
+        console.error(error)
+        this.setState({ error })
+    })
+  }
+
+  setSuggestions = suggestions => {
+    this.setState({
+      suggestions,
+      user: 'default',
+      sortBy: 'newest'
+    })
   }
 
   handleChangeUser = (newUser) => {

@@ -1,4 +1,5 @@
 import ApiContext from '../../ApiContext'
+import config from '../../config'
 import { Link } from 'react-router-dom'
 import React from 'react'
 import ValidationError from '../ValidationError'
@@ -85,6 +86,35 @@ class SubmitForm extends React.Component {
   }
 
   handleSubmit = e => {
+    console.log('submit started')
+    e.preventDefault()
+    const suggestion = this.state.newSuggestion
+    fetch(config.API_ENDPOINT, {
+      method: 'POST',
+      body: JSON.stringify(suggestion),
+      headers: {
+        'content-type': 'application/json',
+      }
+    })
+      .then(res => {
+        if (!res.ok) {
+          return res.json().then(error => {
+            throw error
+          })
+        }
+        return res.json()
+      })
+      .then(data => {
+        this.context.addSuggestion(data)
+      })
+      .catch(error => {
+        this.setState({ error })
+      })
+
+
+
+
+
     if (this.validateTitle(this.state.newSuggestion.title) === true && this.validateContent(this.state.newSuggestion.content) === true) {
       this.context.addSuggestion(this.state.newSuggestion)
     } else {
