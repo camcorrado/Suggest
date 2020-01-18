@@ -38,7 +38,7 @@ export default class Suggestion extends React.Component {
   
 
   render() {
-    const { userId, title, content, date_published, date_modified, approved, date_approved, upvotes } = this.props
+    const { user, title, content, date_published, date_modified, approved, date_approved, upvotes } = this.props
 
     if (this.context.user === 'default') {
       return (
@@ -96,7 +96,7 @@ export default class Suggestion extends React.Component {
               </span>
             }
           </div>
-          {userId !== 100 && approved === false ? 
+          {userid !== 100 && approved === false ? 
             <div className='upvotes'>
               <p>Upvotes: {upvotes}</p>
               <button 

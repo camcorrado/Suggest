@@ -26,7 +26,7 @@ export default class YourSuggestionsPage extends React.Component {
   render() {
     let userSuggestions = []
     for (let i = 0; i < this.context.suggestions.length; i++) {
-      if (this.context.suggestions[i].userId === 100) {
+      if (this.context.suggestions[i].userid === 100) {
         userSuggestions.push(this.context.suggestions[i])
       }
     }
@@ -50,7 +50,7 @@ export default class YourSuggestionsPage extends React.Component {
               <li key={suggestion.id}>
                 <Suggestion
                   id={suggestion.id}
-                  userId={suggestion.userId}
+                  userid={suggestion.userid}
                   title={suggestion.title}
                   content={suggestion.content}
                   date_published={suggestion.date_published}
@@ -85,7 +85,7 @@ export default class YourSuggestionsPage extends React.Component {
               <li key={suggestion.id}>
                 <Suggestion
                   id={suggestion.id}
-                  userId={suggestion.userId}
+                  userid={suggestion.userid}
                   title={suggestion.title}
                   content={suggestion.content}
                   date_published={suggestion.date_published}
@@ -120,7 +120,7 @@ export default class YourSuggestionsPage extends React.Component {
               <li key={suggestion.id}>
                 <Suggestion
                   id={suggestion.id}
-                  userId={suggestion.userId}
+                  userid={suggestion.userid}
                   title={suggestion.title}
                   content={suggestion.content}
                   date_published={suggestion.date_published}

@@ -20,7 +20,7 @@ export default class ViewSuggestionsPage extends React.Component {
       }
     let otherUserSuggestions = []
     for (let i = 0; i < this.context.suggestions.length; i++) {
-      if (this.context.suggestions[i].userId !== 100 && this.context.suggestions[i].approved === false) {
+      if (this.context.suggestions[i].userid !== 100 && this.context.suggestions[i].approved === false) {
         otherUserSuggestions.push(this.context.suggestions[i])
       }
     }
@@ -81,7 +81,7 @@ export default class ViewSuggestionsPage extends React.Component {
                 <li key={suggestion.id}>
                   <Suggestion
                     id={suggestion.id}
-                    userId={suggestion.userId}
+                    userid={suggestion.userid}
                     title={suggestion.title}
                     content={suggestion.content}
                     date_published={suggestion.date_published}
@@ -100,7 +100,7 @@ export default class ViewSuggestionsPage extends React.Component {
                 <li key={suggestion.id}>
                   <Suggestion
                     id={suggestion.id}
-                    userId={suggestion.userId}
+                    userid={suggestion.userid}
                     title={suggestion.title}
                     content={suggestion.content}
                     date_published={suggestion.date_published}
@@ -119,7 +119,7 @@ export default class ViewSuggestionsPage extends React.Component {
               <li key={suggestion.id}>
                 <Suggestion
                   id={suggestion.id}
-                  userId={suggestion.userId}
+                  userid={suggestion.userid}
                   title={suggestion.title}
                   content={suggestion.content}
                   date_published={suggestion.date_published}
@@ -147,7 +147,7 @@ export default class ViewSuggestionsPage extends React.Component {
                 <li key={suggestion.id}>
                   <Suggestion
                     id={suggestion.id}
-                    userId={suggestion.userId}
+                    userid={suggestion.userid}
                     title={suggestion.title}
                     content={suggestion.content}
                     date_published={suggestion.date_published}
@@ -166,7 +166,7 @@ export default class ViewSuggestionsPage extends React.Component {
                 <li key={suggestion.id}>
                   <Suggestion
                     id={suggestion.id}
-                    userId={suggestion.userId}
+                    userid={suggestion.userid}
                     title={suggestion.title}
                     content={suggestion.content}
                     date_published={suggestion.date_published}
@@ -185,7 +185,7 @@ export default class ViewSuggestionsPage extends React.Component {
               <li key={suggestion.id}>
                 <Suggestion
                   id={suggestion.id}
-                  userId={suggestion.userId}
+                  userid={suggestion.userid}
                   title={suggestion.title}
                   content={suggestion.content}
                   date_published={suggestion.date_published}
@@ -212,7 +212,7 @@ export default class ViewSuggestionsPage extends React.Component {
                 <li key={suggestion.id}>
                   <Suggestion
                     id={suggestion.id}
-                    userId={suggestion.userId}
+                    user={suggestion.user}
                     title={suggestion.title}
                     content={suggestion.content}
                     date_published={suggestion.date_published}
@@ -231,7 +231,7 @@ export default class ViewSuggestionsPage extends React.Component {
                 <li key={suggestion.id}>
                   <Suggestion
                     id={suggestion.id}
-                    userId={suggestion.userId}
+                    userid={suggestion.userid}
                     title={suggestion.title}
                     content={suggestion.content}
                     date_published={suggestion.date_published}
@@ -250,7 +250,7 @@ export default class ViewSuggestionsPage extends React.Component {
                 <li key={suggestion.id}>
                   <Suggestion
                     id={suggestion.id}
-                    userId={suggestion.userId}
+                    userid={suggestion.userid}
                     title={suggestion.title}
                     content={suggestion.content}
                     date_published={suggestion.date_published}

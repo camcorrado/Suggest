@@ -11,7 +11,7 @@ class SubmitForm extends React.Component {
     this.state = {
       newSuggestion: {
         'id': null,
-        'userId': 100,
+        'userid': 100,
         'title': '',
         'content': '',
         'date_published': null,
