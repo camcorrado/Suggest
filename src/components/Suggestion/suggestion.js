@@ -38,7 +38,7 @@ export default class Suggestion extends React.Component {
   
 
   render() {
-    const { user, title, content, date_published, date_modified, approved, date_approved, upvotes } = this.props
+    const { userid, title, content, date_published, date_modified, approved, date_approved, upvotes } = this.props
 
     if (this.context.user === 'default') {
       return (

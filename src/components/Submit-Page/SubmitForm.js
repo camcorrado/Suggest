@@ -142,22 +142,13 @@ class SubmitForm extends React.Component {
         </div>
         <div id='submitMessage'>
         </div>
-        {this.validateTitle(this.state.newSuggestion.title) === true && this.validateContent(this.state.newSuggestion.content) === true ?
-          <Link
-            to={`/demo-employee`}
-            onClick={this.handleSubmit}
-            className='makeButton'
-          >
-            Submit
-          </Link> : 
-          <Link 
-            to={`/submit-suggestions`} 
-            onClick={this.handleSubmit}
-            className='makeButton'
-          >
-            Submit
-          </Link>
-        }
+        <Link
+          to={`/demo-employee`}
+          onClick={this.handleSubmit}
+          className='makeButton'
+        >
+          Submit
+        </Link>
         <button type='reset'>Reset</button>
       </form>        
     )
