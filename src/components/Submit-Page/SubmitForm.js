@@ -10,11 +10,11 @@ class SubmitForm extends React.Component {
 
     this.state = {
       newSuggestion: {
-        'id': null,
+        'id': '',
         'userid': 100,
         'title': '',
         'content': '',
-        'date_published': null,
+        'date_published': new Date().toDateString(),
         'date_modified': null,
         'approved': false,
         'date_approved': null,
@@ -30,7 +30,7 @@ class SubmitForm extends React.Component {
       }
     }
 
-    this.updateTitle = this.updateTitle.bind(this)
+    this.updateTitleAndId = this.updateTitleAndId.bind(this)
     this.updateContent = this.updateContent.bind(this)
     this.validateTitle = this.validateTitle.bind(this)
     this.validateContent = this.validateContent.bind(this)
@@ -43,11 +43,12 @@ class SubmitForm extends React.Component {
     addSuggestion: () => {}
   }
 
-  updateTitle(title) {
+  updateTitleAndId(title) {
     this.setState({ titleChange: { value: title, touched: true } })
     this.setState(prevState => ({
       newSuggestion: {
         ...prevState.newSuggestion,
+        'id': this.context.suggestions.length + 1,
         'title': title
       }
     }))
@@ -87,28 +88,29 @@ class SubmitForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    const suggestion = this.state.newSuggestion
-    fetch(config.API_ENDPOINT, {
-      method: 'POST',
-      body: JSON.stringify(suggestion)
-    })
-      .then(res => {
-        if (!res.ok) {
-          return res.json().then(error => {
-            throw error
-          })
-        }
-        return res.json()
-      })
-      .then(data => {
-        this.context.addSuggestion(data)
-      })
-      .catch(error => {
-        this.setState({ error })
-      })
-
     if (this.validateTitle(this.state.newSuggestion.title) === true && this.validateContent(this.state.newSuggestion.content) === true) {
-      this.context.addSuggestion(this.state.newSuggestion)
+      const suggestion = this.state.newSuggestion
+      fetch(config.API_ENDPOINT, {
+        method: 'POST',
+        body: JSON.stringify(suggestion),
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
+        .then(res => {
+          if (!res.ok) {
+            return res.json().then(error => {
+              throw error
+            })
+          }
+          return res.json()
+        })
+        .then(data => {
+          this.context.addSuggestion(data)
+        })
+        .catch(error => {
+          console.error(error)
+        })
     } else {
       document.getElementById('submitMessage').innerHTML = `<p>Please enter valid information.</p>`
     }
@@ -125,7 +127,7 @@ class SubmitForm extends React.Component {
             type='text' 
             name='suggestion-title'
             placeholder='What needs change?' 
-            onChange={e => this.updateTitle(e.target.value)} 
+            onChange={e => this.updateTitleAndId(e.target.value)} 
             aria-required='true'
           />
           {this.state.titleChange.touched && <ValidationError message={titleError} />}

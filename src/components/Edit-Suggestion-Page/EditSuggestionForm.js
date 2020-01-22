@@ -1,4 +1,5 @@
 import ApiContext from '../../ApiContext'
+import config from '../../config'
 import { Link } from 'react-router-dom'
 import React from 'react'
 
@@ -7,13 +8,19 @@ class EditSuggestionForm extends React.Component {
     super(props)
 
     this.state = {
+      id: this.props.id,
+      userid: this.props.userid,
       title: {
         value: this.props.title
       },
       content: {
         value: this.props.content
       },
-      date_modified: null
+      date_published: this.props.date_published,
+      date_modified: null,
+      upvotes: this.props.upvotes,
+      approved: this.props.approved,
+      date_approved: this.props.date_approved
     }
 
     this.handleChangeTitle = this.handleChangeTitle.bind(this)
@@ -24,26 +31,75 @@ class EditSuggestionForm extends React.Component {
   static contextType = ApiContext
 
   static defaultProps ={
-    editSuggestion: () => {}
+    editSuggestion: () => {},
+    match: {
+      params: {}
+    }
+  }
+
+  componentDidMount() {
+    const { suggestionId } = this.props.match.params
+    fetch(config.API_ENDPOINT + `/${suggestionId}`, {
+      method: 'GET'
+    })
+      .then(res => {
+        if (!res.ok)
+          return res.json().then(error => Promise.reject(error))
+        return res.json()
+      })
+      .then(responseData => {
+        this.setState({
+          title: responseData.title,
+          content: responseData.content,
+          date_modified: responseData.date_modified
+        })
+      })
+      .catch(error => {
+        console.error(error)
+        this.setState({ error })
+      })
   }
 
   handleChangeTitle = e => {
-    this.setState({title: {value: e}})
+    this.setState({ title: e.target.value })
   }
 
   handleChangeContent = e => {
-    this.setState({content: {value: e}})
+    this.setState({ content: e.target.value })
   }
 
-  handleClickSubmit = () => {
-    const suggestionId = this.props.id
-    const newTitle = this.state.title.value
-    const newContent = this.state.content.value
-    const newModifiedDate = new Date().toDateString()
-    this.context.editSuggestion(suggestionId, newTitle, newContent, newModifiedDate)
+  handleChangeDateModified = e => {
+    this.setState({ date_modified: new Date().toDateString() })
+  }
+
+  handleClickSubmit = e => {
+    e.preventDefault()
+    const { suggestionId } = this.props.match.params
+    const { id, userid, title, content, date_published, date_modified, upvotes, approved, date_approved } = this.state
+    const newSuggestion = { id, userid, title, content, date_published, date_modified, upvotes, approved, date_approved }
+    fetch(config.API_ENDPOINT + `/${suggestionId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(newSuggestion),
+      headers: {
+        'content-type': 'application/json'
+      },
+    })
+      .then(res => {
+        if (!res.ok)
+          return res.json().then(error => Promise.reject(error))
+      })
+      .then(() => {
+        this.resetFields(newSuggestion)
+        this.context.editSuggestion(newSuggestion)
+      })
+      .catch(error => {
+        console.error(error)
+        this.setState({ error })
+      })
   }
 
   render() {
+    const { title, content } = this.state
     return (
       <form id='record-suggestion'>
           <div className='form-section'>
@@ -51,8 +107,8 @@ class EditSuggestionForm extends React.Component {
             <input 
               type='text' 
               name='suggestion-title' 
-              value={this.state.title.value} 
-              onChange={e => this.handleChangeTitle(e.target.value)} 
+              value={title} 
+              onChange={e => this.handleChangeTitle(e.target.value), this.handleChangeDateModified()} 
               aria-required='true'
             />
           </div>
@@ -60,8 +116,8 @@ class EditSuggestionForm extends React.Component {
             <label htmlFor='suggestion-summary'>Suggestion summary</label>
             <textarea
               name='suggestion-summary'
-              value={this.state.content.value}
-              onChange={e => this.handleChangeContent(e.target.value)}
+              value={content}
+              onChange={e => this.handleChangeContent(e.target.value), this.handleChangeDateModified()}
               rows='15'
               aria-required='true'
             ></textarea>

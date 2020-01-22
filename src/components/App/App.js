@@ -21,7 +21,10 @@ class App extends React.Component {
 
   componentDidMount() {
     fetch(config.API_ENDPOINT, {
-      method: 'GET'
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      }
     })
       .then(res => {
         if (!res.ok) {
@@ -32,7 +35,6 @@ class App extends React.Component {
       .then(this.setSuggestions)
       .catch(error => {
         console.error(error)
-        this.setState({ error })
     })
   }
 
@@ -45,36 +47,32 @@ class App extends React.Component {
     })
   }
 
-  handleChangeUser = (newUser) => {
+  handleChangeUser = newUser => {
     this.setState({
       user: newUser
     })
   }
 
-  handleAddSuggestion = (newSuggestion) => {
-    newSuggestion.date_published = new Date().toDateString()
-    this.setState(prevState => {
-        const newId = prevState.suggestions.length + 1
-        newSuggestion.id = newId
-        const suggestions = [ newSuggestion, ...this.state.suggestions ]
-        return { suggestions }
-      })
+  handleAddSuggestion = suggestion => {
+    this.setState({
+      suggestions: [ ...this.state.suggestions, suggestion ],
+    })
   }
 
-  handleEditSuggestion = (suggestionId, newTitle, newContent, newModifiedDate) => {
-    this.setState(prevState => {
-      const suggestions = [...prevState.suggestions]
-      const index = suggestions.findIndex(s => s.id === suggestionId)
-      suggestions[index].title = newTitle
-      suggestions[index].content = newContent
-      suggestions[index].date_modified = newModifiedDate
-      return { suggestions }
+  handleEditSuggestion = updatedSuggestion => {
+    this.setState({
+      suggestions: this.state.suggestions.map(suggestion =>
+        (suggestion.id !== updatedSuggestion.id) ? suggestion : updatedSuggestion
+      )
     })
   }
 
   handleDeleteSuggestion = suggestionId => {
+    const newSuggestions = this.state.suggestions.filter(suggestion =>
+      suggestion.id !== suggestionId
+    )
     this.setState({
-        suggestions: this.state.suggestions.filter(suggestion => suggestion.id !== suggestionId)
+      suggestion: newSuggestions
     })
   }
 
