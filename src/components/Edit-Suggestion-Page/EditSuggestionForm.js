@@ -62,13 +62,11 @@ class EditSuggestionForm extends React.Component {
 
   handleChangeTitle = e => {
     this.setState({ title: e.target.value })
+    this.setState({ date_modified: new Date().toDateString() })
   }
 
   handleChangeContent = e => {
     this.setState({ content: e.target.value })
-  }
-
-  handleChangeDateModified = e => {
     this.setState({ date_modified: new Date().toDateString() })
   }
 
@@ -108,7 +106,7 @@ class EditSuggestionForm extends React.Component {
               type='text' 
               name='suggestion-title' 
               value={title} 
-              onChange={e => this.handleChangeTitle(e.target.value), this.handleChangeDateModified()} 
+              onChange={e => this.handleChangeTitle(e.target.value)} 
               aria-required='true'
             />
           </div>
@@ -117,7 +115,7 @@ class EditSuggestionForm extends React.Component {
             <textarea
               name='suggestion-summary'
               value={content}
-              onChange={e => this.handleChangeContent(e.target.value), this.handleChangeDateModified()}
+              onChange={e => this.handleChangeContent(e.target.value)}
               rows='15'
               aria-required='true'
             ></textarea>
