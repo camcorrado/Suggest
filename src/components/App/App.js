@@ -39,7 +39,6 @@ class App extends React.Component {
   }
 
   setSuggestions = () => {
-    console.log('setSuggestions ran')
     this.setState({
       suggestions: DummySuggestions,
       user: 'default',

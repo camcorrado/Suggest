@@ -108,7 +108,7 @@ class SignUpForm extends React.Component {
     e.preventDefault()
     if (this.state.button.value === 'Sign Up' && this.validateEmail(this.state.email.value) === true && this.validateFirstName(this.state.firstName.value) === true && this.validateLastName(this.state.lastName.value) === true && this.validatePassword(this.state.password.value) === true) {
       this.setState({ button: { value: 'Try it again!'} })
-      document.getElementById('submitMessage').innerHTML = `<p>Thank you for successfully testing out this sign up form!</p>`
+      document.getElementById('submitMessage').innerHTML = `<p>Thank you for successfully testing out this dummy sign up form!</p>`
     } else if (this.state.button.value === 'Try it again!') {
       this.setState({
         firstName: {
