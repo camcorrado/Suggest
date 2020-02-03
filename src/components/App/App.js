@@ -20,7 +20,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch(config.API_ENDPOINT, {
+    fetch(`${config.API_ENDPOINT}/api/suggestions`, {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
