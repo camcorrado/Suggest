@@ -90,7 +90,7 @@ class SubmitForm extends React.Component {
     e.preventDefault()
     if (this.validateTitle(this.state.newSuggestion.title) === true && this.validateContent(this.state.newSuggestion.content) === true) {
       const suggestion = this.state.newSuggestion
-      fetch(config.API_ENDPOINT, {
+      fetch(`${config.API_ENDPOINT}/suggestions`, {
         method: 'POST',
         body: JSON.stringify(suggestion),
         headers: {
