@@ -1,4 +1,5 @@
 import ApiContext from '../../ApiContext'
+import config from '../../config'
 import React from 'react'
 
 export default class Suggestion extends React.Component {
@@ -20,29 +21,64 @@ export default class Suggestion extends React.Component {
     handleApprove: () => {}
   }
 
-  handleClickSubmitUpvote = e => {
-    e.preventDefault()
+  handleClickSubmitUpvote = (suggestion, callback) =>{
+    this.setState({ touched: true })
     const suggestionId = this.props.id
     const newUpvotes = this.props.upvotes + 1
-    this.context.handleUpvote(suggestionId, newUpvotes)
-    this.setState({ touched: true })
+    fetch(config.API_ENDPOINT + `/${suggestionId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(suggestion),
+      headers: {
+        'content-type': 'application/json',
+      },
+    })
+      .then(res => {
+        if (!res.ok)
+          return res.json().then(error => Promise.reject(error))
+      })
+      .then(() => {
+        callback(callback)
+        this.context.handleUpvote(suggestionId, newUpvotes)
+      })
+      .catch(error => {
+        console.error(error)
+        this.setState({ error })
+      })
   }
 
-  handleClickSubmitApprove = e => {
-    e.preventDefault()
+  handleClickSubmitApprove = (suggestion, callback) =>{
     const suggestionId = this.props.id
     const dateApprove = new Date().toDateString()
-    this.context.handleApprove(suggestionId, dateApprove)
+    fetch(config.API_ENDPOINT + `/${suggestionId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(suggestion),
+      headers: {
+        'content-type': 'application/json',
+      },
+    })
+      .then(res => {
+        if (!res.ok)
+          return res.json().then(error => Promise.reject(error))
+      })
+      .then(() => {
+        callback(callback)
+        this.context.handleApprove(suggestionId, dateApprove)
+      })
+      .catch(error => {
+        console.error(error)
+        this.setState({ error })
+      })
   }
-
-  
 
   render() {
     const { userid, title, content, date_published, date_modified, approved, date_approved, upvotes } = this.props
+    const suggestion = { userid, title, content, date_published, date_modified, approved, date_approved, upvotes }
 
     if (this.context.user === 'default') {
       return (
-        <div className='Suggestion'>
+        <div className='Suggestion'
+          suggestion={suggestion}
+        >
           <h2 className='Suggestion__title'>
             {title}
           </h2>
@@ -77,7 +113,9 @@ export default class Suggestion extends React.Component {
       )
     } else if (this.context.user === 'employee') {
       return (
-        <div className='Suggestion'>
+        <div className='Suggestion'
+          suggestion={suggestion} 
+        >
           <h2 className='Suggestion__title'>
             {title}
           </h2>
@@ -103,7 +141,7 @@ export default class Suggestion extends React.Component {
                 id='upvoteButton'
                 type='submit'
                 disabled={this.state.touched === true ? true : false}
-                onClick={e => this.handleClickSubmitUpvote(e)}
+                onClick={e => this.handleClickSubmitUpvote}
               >
                 Upvote
               </button>
@@ -125,7 +163,9 @@ export default class Suggestion extends React.Component {
       )
     } else if (this.context.user === 'admin') {
       return (
-        <div className='Suggestion'>
+        <div className='Suggestion'
+          suggestion={suggestion}
+        >
           <h2 className='Suggestion__title'>
             {title}
           </h2>
@@ -152,7 +192,7 @@ export default class Suggestion extends React.Component {
               <button
                 id='approveButton'
                 type='submit'
-                onClick={e => this.handleClickSubmitApprove(e)}
+                onClick={e => this.handleClickSubmitApprove}
               >
                 Approve
               </button>

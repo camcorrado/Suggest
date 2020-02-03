@@ -59,10 +59,13 @@ class App extends React.Component {
   }
 
   handleEditSuggestion = updatedSuggestion => {
+    const newSuggestions = this.state.suggestions.map(suggestion =>
+      (suggestion.id === updatedSuggestion.id)
+      ? updatedSuggestion
+      : suggestion
+    )
     this.setState({
-      suggestions: this.state.suggestions.map(suggestion =>
-        (suggestion.id !== updatedSuggestion.id) ? suggestion : updatedSuggestion
-      )
+      suggestions: newSuggestions
     })
   }
 

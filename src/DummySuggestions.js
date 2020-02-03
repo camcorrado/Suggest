@@ -49,7 +49,7 @@ export default {
             'id': 5,
             'userid': 200,
             'title': 'Holiday Party',
-            'content': "Let's celebrate the holidays next year to boost morale!",
+            'content': 'Let us celebrate the holidays next year to boost morale!',
             'date_published': 'Wed Jan 08 2020',
             'date_modified': null,
             'approved': true,
