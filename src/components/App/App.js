@@ -40,7 +40,7 @@ class App extends React.Component {
 
   setSuggestions = () => {
     this.setState({
-      suggestions: DummySuggestions,
+      suggestions: DummySuggestions.suggestions,
       user: 'default',
       sortBy: 'newest'
     })

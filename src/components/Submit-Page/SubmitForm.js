@@ -30,6 +30,7 @@ class SubmitForm extends React.Component {
       }
     }
 
+    this.createId = this.createId.bind(this)
     this.updateTitleAndId = this.updateTitleAndId.bind(this)
     this.updateContent = this.updateContent.bind(this)
     this.validateTitle = this.validateTitle.bind(this)
@@ -43,12 +44,21 @@ class SubmitForm extends React.Component {
     addSuggestion: () => {}
   }
 
+  createId(id) {
+    this.setState(prevState => ({
+      newSuggestion: {
+        ...prevState.newSuggestion,
+        'id': id,
+        }
+      })
+    )
+  }
+
   updateTitleAndId(title) {
     this.setState({ titleChange: { value: title, touched: true } })
     this.setState(prevState => ({
       newSuggestion: {
         ...prevState.newSuggestion,
-        'id': this.context.suggestions.length + 1,
         'title': title
       }
     }))
@@ -86,9 +96,10 @@ class SubmitForm extends React.Component {
     }
   }
 
-  handleSubmit = e => {
+  handleSubmit = async (e) => {
     e.preventDefault()
     if (this.validateTitle(this.state.newSuggestion.title) === true && this.validateContent(this.state.newSuggestion.content) === true) {
+      await this.createId(this.context.suggestions.length + 1)
       const suggestion = this.state.newSuggestion
       fetch(`${config.API_ENDPOINT}/api/suggestions`, {
         method: 'POST',
@@ -119,6 +130,7 @@ class SubmitForm extends React.Component {
   render() {
     const titleError = this.validateTitle()
     const contentError = this.validateContent()
+    
     return (
       <form id='record-suggestion'>
         <div className='form-section'>
