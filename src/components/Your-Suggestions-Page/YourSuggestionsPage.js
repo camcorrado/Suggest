@@ -1,4 +1,5 @@
 import ApiContext from '../../ApiContext'
+import config from '../../config'
 import { Link } from 'react-router-dom'
 import React from 'react'
 import SortByForm from '../SortByForm'
@@ -18,9 +19,27 @@ export default class YourSuggestionsPage extends React.Component {
     editSuggestion: () => {}
   }
 
-  handleClickDelete = (e, suggestionId) => {
-    e.preventDefault()
-    this.context.deleteSuggestion(suggestionId)
+  handleClickDelete(suggestionId) {
+    fetch(`${config.API_ENDPOINT}/api/suggestions/${suggestionId}`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+      .then(response => {
+        if(!response.ok) {
+          return response.json().then(error => {
+            throw error
+          })
+        }
+        return response.json()
+      })
+      .then(data => {
+        this.context.deleteSuggestion(data)
+      })
+      .catch(error => {
+        console.error(error)
+      })
   }
   
   render() {
@@ -68,7 +87,7 @@ export default class YourSuggestionsPage extends React.Component {
                   </Link>
                 }
                 {suggestion.approved === false &&
-                  <button onClick={(e) => this.handleClickDelete(e, suggestion.id)}>
+                  <button onClick={this.handleClickDelete(suggestion.id)}>
                       Delete
                   </button>
                 }
@@ -103,7 +122,7 @@ export default class YourSuggestionsPage extends React.Component {
                   </Link>
                 }
                 {suggestion.approved === false &&
-                  <button onClick={(e) => this.handleClickDelete(e, suggestion.id)}>
+                  <button onClick={this.handleClickDelete(suggestion.id)}>
                       Delete
                   </button>
                 }
@@ -138,7 +157,7 @@ export default class YourSuggestionsPage extends React.Component {
                   </Link>
                 }
                 {suggestion.approved === false &&
-                  <button onClick={(e) => this.handleClickDelete(e, suggestion.id)}>
+                  <button onClick={this.handleClickDelete(suggestion.id)}>
                       Delete
                   </button>
                 }

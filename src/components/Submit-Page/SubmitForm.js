@@ -99,6 +99,7 @@ class SubmitForm extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault()
     if (this.validateTitle(this.state.newSuggestion.title) === true && this.validateContent(this.state.newSuggestion.content) === true) {
+      console.log(this.context.suggestions.length)
       await this.createId(this.context.suggestions.length + 1)
       const suggestion = this.state.newSuggestion
       fetch(`${config.API_ENDPOINT}/api/suggestions`, {

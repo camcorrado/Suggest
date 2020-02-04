@@ -38,9 +38,9 @@ class App extends React.Component {
   }
 
   setSuggestions = (data) => {
-    console.log(this.state.suggestions)
-    console.log(data)
-    this.state.suggestions.push(data)
+    this.setState({
+      suggestions: data
+    })
     console.log(this.state.suggestions)
   }
 
