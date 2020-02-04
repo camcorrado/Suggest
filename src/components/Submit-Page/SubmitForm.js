@@ -118,8 +118,6 @@ class SubmitForm extends React.Component {
         })
         .then(data => {
           this.context.addSuggestion(data)
-          
-          this.props.history.push('/')
         })
         .catch(error => {
           console.error(error)

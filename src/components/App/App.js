@@ -1,7 +1,6 @@
 import ApiContext from '../../ApiContext'
 import ApprovedSuggestionsPage from '../Approved-Suggestions-Page/ApprovedSuggestionsPage'
 import config from '../../config'
-import DummySuggestions from '../../DummySuggestions'
 import EditSuggestionPage from '../Edit-Suggestion-Page/EditSuggestionPage'
 import Hero from '../Hero/Hero'
 import Nav from '../Nav/Nav'
@@ -32,18 +31,17 @@ class App extends React.Component {
         }
         return res.json()
       })
-      .then(this.setSuggestions)
+      .then(data => this.setSuggestions(data))
       .catch(error => {
         console.error(error)
     })
   }
 
-  setSuggestions = () => {
-    this.setState({
-      suggestions: DummySuggestions.suggestions,
-      user: 'default',
-      sortBy: 'newest'
-    })
+  setSuggestions = (data) => {
+    console.log(this.state.suggestions)
+    console.log(data)
+    this.state.suggestions.push(data)
+    console.log(this.state.suggestions)
   }
 
   handleChangeUser = newUser => {
@@ -53,9 +51,8 @@ class App extends React.Component {
   }
 
   handleAddSuggestion = suggestion => {
-    this.setState({
-      suggestions: [ ...this.state.suggestions, suggestion ],
-    })
+    console.log(suggestion)
+    this.state.suggestions.push(suggestion)
   }
 
   handleEditSuggestion = updatedSuggestion => {
