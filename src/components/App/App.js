@@ -37,9 +37,9 @@ class App extends React.Component {
     })
   }
 
-  setSuggestions = (data) => {
+  setSuggestions = (suggestions) => {
     this.setState({
-      suggestions: data
+      suggestions
     })
     console.log(this.state.suggestions)
   }
@@ -53,6 +53,7 @@ class App extends React.Component {
   handleAddSuggestion = suggestion => {
     console.log(suggestion)
     this.state.suggestions.push(suggestion)
+    console.log(this.state.suggestions)
   }
 
   handleEditSuggestion = updatedSuggestion => {
@@ -66,9 +67,10 @@ class App extends React.Component {
     })
   }
 
-  handleDeleteSuggestion = suggestionId => {
+  handleDeleteSuggestion = deletedSuggestion => {
+    console.log(deletedSuggestion.id)
     const newSuggestions = this.state.suggestions.filter(suggestion =>
-      suggestion.id !== suggestionId
+      suggestion.id !== deletedSuggestion.id
     )
     this.setState({
       suggestion: newSuggestions

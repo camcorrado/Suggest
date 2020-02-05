@@ -51,16 +51,21 @@ class EditSuggestionForm extends React.Component {
   }
 
   componentDidMount() {
-    const { suggestionId } = this.props.match.params
-    fetch(config.API_ENDPOINT + `/${suggestionId}`, {
-      method: 'GET'
+    console.log(`${config.API_ENDPOINT}/api/suggestions/${this.state.suggestion.id}`)
+    fetch(`${config.API_ENDPOINT}/api/suggestions/${this.state.suggestion.id}`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      }
     })
       .then(res => {
-        if (!res.ok)
-          return res.json().then(error => Promise.reject(error))
+        if (!res.ok) {
+          throw new Error(res.status)
+        }
         return res.json()
       })
       .then(responseData => {
+        console.log(responseData)
         this.setState({
           title: responseData.title,
           content: responseData.content,
