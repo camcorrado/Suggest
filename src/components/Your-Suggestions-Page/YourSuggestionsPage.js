@@ -15,10 +15,12 @@ export default class YourSuggestionsPage extends React.Component {
   static contextType = ApiContext
 
   static defaultProps = {
+    suggestions: [],
     deleteSuggestion: () => {}
   }
 
   handleClickDelete(e, suggestionId) {
+    e.preventDefault()
     fetch(`${config.API_ENDPOINT}/api/suggestions/${suggestionId}`, {
       method: 'DELETE',
       headers: {
@@ -29,9 +31,8 @@ export default class YourSuggestionsPage extends React.Component {
         if (!res.ok) {
           throw new Error(res.status)
         }
-        return res.json()
       })
-      .then(data => this.deleteSuggestion(data))
+      .then(this.context.deleteSuggestion(suggestionId))
       .catch(error => {
         console.error(error)
     })
@@ -74,11 +75,12 @@ export default class YourSuggestionsPage extends React.Component {
                   date_approved={suggestion.date_approved}
                 />
                 {suggestion.approved === false &&
-                  <Link 
-                    to={`/edit-suggestion/${suggestion.id}`} 
-                    className='makeButton'
-                  >
-                    Edit
+                  <Link to={{
+                    pathname: `/edit-suggestion/${suggestion.id}`,
+                    state: {
+                      paramId: suggestion.id
+                    }
+                  }}>Edit
                   </Link>
                 }
                 {suggestion.approved === false &&
@@ -109,11 +111,12 @@ export default class YourSuggestionsPage extends React.Component {
                   date_approved={suggestion.date_approved}
                 />
                 {suggestion.approved === false &&
-                  <Link 
-                    to={`/edit-suggestion/${suggestion.id}`} 
-                    className='makeButton'
-                  >
-                    Edit
+                  <Link to={{
+                    pathname: `/edit-suggestion/${suggestion.id}`,
+                    state: {
+                      paramId: suggestion.id
+                    }
+                  }}>Edit
                   </Link>
                 }
                 {suggestion.approved === false &&
@@ -144,11 +147,12 @@ export default class YourSuggestionsPage extends React.Component {
                   date_approved={suggestion.date_approved}
                 />
                 {suggestion.approved === false &&
-                  <Link 
-                    to={`/edit-suggestion/${suggestion.id}`} 
-                    className='makeButton'
-                  >
-                    Edit
+                  <Link to={{
+                    pathname: `/edit-suggestion/${suggestion.id}`,
+                    state: {
+                      paramId: suggestion.id
+                    }
+                  }}>Edit
                   </Link>
                 }
                 {suggestion.approved === false &&

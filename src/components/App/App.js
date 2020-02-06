@@ -18,30 +18,10 @@ class App extends React.Component {
     sortBy: 'newest'
   }
 
-  componentDidMount() {
-    fetch(`${config.API_ENDPOINT}/api/suggestions`, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.status)
-        }
-        return res.json()
-      })
-      .then(data => this.setSuggestions(data))
-      .catch(error => {
-        console.error(error)
-    })
-  }
-
   setSuggestions = (suggestions) => {
     this.setState({
       suggestions
     })
-    console.log(this.state.suggestions)
   }
 
   handleChangeUser = newUser => {
@@ -51,9 +31,7 @@ class App extends React.Component {
   }
 
   handleAddSuggestion = suggestion => {
-    console.log(suggestion)
     this.state.suggestions.push(suggestion)
-    console.log(this.state.suggestions)
   }
 
   handleEditSuggestion = updatedSuggestion => {
@@ -67,13 +45,12 @@ class App extends React.Component {
     })
   }
 
-  handleDeleteSuggestion = deletedSuggestion => {
-    console.log(deletedSuggestion.id)
+  handleDeleteSuggestion = deletedSuggestionId => {
     const newSuggestions = this.state.suggestions.filter(suggestion =>
-      suggestion.id !== deletedSuggestion.id
+      suggestion.id !== deletedSuggestionId
     )
     this.setState({
-      suggestion: newSuggestions
+      suggestions: newSuggestions
     })
   }
 
@@ -107,6 +84,25 @@ class App extends React.Component {
   handleSortByChange = (value) => {
     this.setState({
       sortBy: value
+    })
+  }
+
+  componentDidMount() {
+    fetch(`${config.API_ENDPOINT}/api/suggestions`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.status)
+        }
+        return res.json()
+      })
+      .then(data => this.setSuggestions(data))
+      .catch(error => {
+        console.error(error)
     })
   }
 

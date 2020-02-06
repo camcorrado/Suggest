@@ -1,8 +1,8 @@
 import ApiContext from '../../ApiContext'
 import config from '../../config'
-import { Link } from 'react-router-dom'
 import React from 'react'
 import ValidationError from '../ValidationError'
+import { withRouter } from 'react-router-dom'
 
 class SubmitForm extends React.Component {
   constructor(props) {
@@ -99,7 +99,6 @@ class SubmitForm extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault()
     if (this.validateTitle(this.state.newSuggestion.title) === true && this.validateContent(this.state.newSuggestion.content) === true) {
-      console.log(this.context.suggestions.length)
       await this.createId(this.context.suggestions.length + 1)
       const suggestion = this.state.newSuggestion
       fetch(`${config.API_ENDPOINT}/api/suggestions`, {
@@ -118,12 +117,13 @@ class SubmitForm extends React.Component {
           return res.json()
         })
         .then(data => {
-          console.log(data)
           this.context.addSuggestion(data)
+          this.props.history.push('/demo-employee')
         })
         .catch(error => {
           console.error(error)
         })
+        this.props.history.push('/demo-employee')
     } else {
       document.getElementById('submitMessage').innerHTML = `<p>Please enter valid information.</p>`
     }
@@ -136,7 +136,7 @@ class SubmitForm extends React.Component {
     return (
       <form id='record-suggestion'>
         <div className='form-section'>
-          <label htmlFor='suggestion-title'>Suggestion Title</label>
+          <label htmlFor='suggestion-title'>Title</label>
           <input 
             type='text' 
             name='suggestion-title'
@@ -147,9 +147,9 @@ class SubmitForm extends React.Component {
           {this.state.titleChange.touched && <ValidationError message={titleError} />}
         </div>
         <div className='form-section'>
-          <label htmlFor='suggestion-summary'>Suggestion summary</label>
+          <label htmlFor='suggestion-content'>Content</label>
           <textarea
-            name='suggestion-summary'
+            name='suggestion-content'
             rows='15' 
             onChange={e => this.updateContent(e.target.value)} 
             aria-required='true'
@@ -158,17 +158,13 @@ class SubmitForm extends React.Component {
         </div>
         <div id='submitMessage'>
         </div>
-        <Link
-          to={`/demo-employee`}
-          onClick={this.handleSubmit}
-          className='makeButton'
-        >
+        <button onClick={this.handleSubmit}>
           Submit
-        </Link>
+        </button>
         <button type='reset'>Reset</button>
       </form>        
     )
   }
 }
 
-export default SubmitForm
+export default withRouter(SubmitForm)

@@ -1,8 +1,10 @@
 import ApiContext from '../../ApiContext'
 import config from '../../config'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import React from 'react'
 import ValidationError from '../ValidationError'
+import { withRouter } from 'react-router'
 
 class EditSuggestionForm extends React.Component {
   constructor(props) {
@@ -10,26 +12,20 @@ class EditSuggestionForm extends React.Component {
 
     this.state = {
       suggestion: {
-        id: this.props.id,
-      userid: this.props.userid,
-      title: {
-        value: this.props.title
-      },
-      content: {
-        value: this.props.content
-      },
-      date_published: this.props.date_published,
-      date_modified: null,
-      upvotes: this.props.upvotes,
-      approved: this.props.approved,
-      date_approved: this.props.date_approved
+        id: '',
+        userid: '',
+        title: '',
+        content: '',
+        date_published: '',
+        date_modified: '',
+        upvotes: '',
+        approved: '',
+        date_approved: ''
       },
       titleChange: {
-        value: '',
         touched: false
       },
       contentChange: {
-        value: '',
         touched: false
       }
     }
@@ -50,9 +46,12 @@ class EditSuggestionForm extends React.Component {
     }
   }
 
+  static propTypes = {
+    match: PropTypes.object.isRequired
+  }
+
   componentDidMount() {
-    console.log(`${config.API_ENDPOINT}/api/suggestions/${this.state.suggestion.id}`)
-    fetch(`${config.API_ENDPOINT}/api/suggestions/${this.state.suggestion.id}`, {
+    fetch(`${config.API_ENDPOINT}/api/suggestions/${this.props.match.params.suggestionId}`, {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -65,11 +64,18 @@ class EditSuggestionForm extends React.Component {
         return res.json()
       })
       .then(responseData => {
-        console.log(responseData)
         this.setState({
-          title: responseData.title,
-          content: responseData.content,
-          date_modified: responseData.date_modified
+          suggestion: {
+            id: responseData.id,
+            userid: responseData.userid,
+            title: responseData.title,
+            content: responseData.content,
+            date_published: responseData.date_published,
+            date_modified: responseData.date_modified,
+            upvotes: responseData.upvotes,
+            approved: responseData.approved,
+            date_approved: responseData.date_approved
+          }
         })
       })
       .catch(error => {
@@ -79,19 +85,55 @@ class EditSuggestionForm extends React.Component {
   }
 
   handleChangeTitle = e => {
-    this.setState({ title: e.target.value })
-    this.setState({ date_modified: new Date().toDateString() })
+    this.setState({ 
+      suggestion: { 
+        title: e.target.value,
+        date_modified: new Date().toDateString()
+      },
+      titleChange: {
+        touched: true
+      }
+    })
+  }
+
+  validateTitle(newTitle) {
+    console.log(newTitle)
+    if (newTitle.length === 0) {
+      return 'Suggestion Title is required'
+    } else if (newTitle.length < 3) {
+      return 'Suggestion Title must be at least 3 characters long'
+    } else {
+      return true
+    }
   }
 
   handleChangeContent = e => {
-    this.setState({ content: e.target.value })
-    this.setState({ date_modified: new Date().toDateString() })
+    this.setState({ 
+      suggestion: { 
+        content: e.target.value,
+        date_modified: new Date().toDateString()
+      },
+      contentChange: {
+        touched: true
+      }
+    })
+  }
+
+  validateContent(newContent) {
+    console.log(newContent)
+    if (newContent.length === 0) {
+      return 'Suggestion Content is required'
+    } else if (newContent.length < 20) {
+      return 'Suggestion Content  must be at least 20 characters long'
+    } else {
+      return true
+    }
   }
 
   handleClickSubmit = e => {
     e.preventDefault()
     if (this.validateTitle(this.state.suggestion.title) === true && this.validateContent(this.state.suggestion.content) === true) {
-    const { suggestionId } = this.props.match.params
+    const { suggestionId } = this.state.suggestion.id
     const { id, userid, title, content, date_published, date_modified, upvotes, approved, date_approved } = this.state.suggestion
     const newSuggestion = { id, userid, title, content, date_published, date_modified, upvotes, approved, date_approved }
     fetch(config.API_ENDPOINT + `/${suggestionId}`, {
@@ -118,55 +160,30 @@ class EditSuggestionForm extends React.Component {
     }
   }
 
-  validateTitle() {
-    const title = this.state.titleChange.value.trim()
-    if (title.length === 0) {
-      return 'Suggestion Title is required'
-    } else if (title.length < 3) {
-      return 'Suggestion Title must be at least 3 characters long'
-    } else {
-      return true
-    }
-  }
-
-  validateContent() {
-    const content = this.state.contentChange.value.trim()
-    if (content.length === 0) {
-      return 'Suggestion Content is required'
-    } else if (content.length < 20) {
-      return 'Suggestion Content  must be at least 20 characters long'
-    } else {
-      return true
-    }
-  }
-
   render() {
-    const { title, content } = this.state.suggestion
-    const titleError = this.validateTitle()
-    const contentError = this.validateContent()
     return (
       <form id='record-suggestion'>
           <div className='form-section'>
-            <label htmlFor='suggestion-title'>Suggestion Title</label>
+            <label htmlFor='suggestion-title'>Title</label>
             <input 
               type='text' 
               name='suggestion-title' 
-              value={title} 
-              onChange={e => this.handleChangeTitle(e.target.value)} 
+              value={this.state.suggestion.title || ''} 
+              onChange={this.handleChangeTitle} 
               aria-required='true'
             />
-            {this.state.titleChange.touched && <ValidationError message={titleError} />}
+            {this.state.titleChange.touched && <ValidationError message={this.validateTitle(this.state.suggestion.title)} />}
           </div>
           <div className='form-section'>
-            <label htmlFor='suggestion-summary'>Suggestion summary</label>
+            <label htmlFor='suggestion-content'>Content</label>
             <textarea
-              name='suggestion-summary'
-              value={content}
-              onChange={e => this.handleChangeContent(e.target.value)}
+              name='suggestion-content'
+              value={this.state.suggestion.content || ''}
+              onChange={this.handleChangeContent}
               rows='15'
               aria-required='true'
             ></textarea>
-            {this.state.contentChange.touched && <ValidationError message={contentError} />}
+            {this.state.contentChange.touched && <ValidationError message={this.validateContent(this.state.suggestion.content)} />}
           </div>
           <Link
             to={`/demo-employee`}
@@ -186,4 +203,4 @@ class EditSuggestionForm extends React.Component {
   }
 }
 
-export default EditSuggestionForm
+export default withRouter(EditSuggestionForm)
