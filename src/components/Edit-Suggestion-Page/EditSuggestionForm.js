@@ -51,6 +51,7 @@ class EditSuggestionForm extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props.title)
     fetch(`${config.API_ENDPOINT}/api/suggestions/${this.props.match.params.suggestionId}`, {
       method: 'GET',
       headers: {
@@ -71,12 +72,13 @@ class EditSuggestionForm extends React.Component {
             title: responseData.title,
             content: responseData.content,
             date_published: responseData.date_published,
-            date_modified: responseData.date_modified,
+            date_modified: new Date().toDateString(),
             upvotes: responseData.upvotes,
             approved: responseData.approved,
             date_approved: responseData.date_approved
           }
         })
+        console.log(this.state)
       })
       .catch(error => {
         console.error(error)
@@ -85,19 +87,18 @@ class EditSuggestionForm extends React.Component {
   }
 
   handleChangeTitle = e => {
-    this.setState({ 
-      suggestion: { 
-        title: e.target.value,
-        date_modified: new Date().toDateString()
+    this.setState({
+      suggestion: {
+        title: e.target.value
       },
-      titleChange: {
+      titleChange: { 
         touched: true
       }
     })
+    console.log(this.state)
   }
 
   validateTitle(newTitle) {
-    console.log(newTitle)
     if (newTitle.length === 0) {
       return 'Suggestion Title is required'
     } else if (newTitle.length < 3) {
@@ -108,19 +109,18 @@ class EditSuggestionForm extends React.Component {
   }
 
   handleChangeContent = e => {
-    this.setState({ 
-      suggestion: { 
-        content: e.target.value,
-        date_modified: new Date().toDateString()
+    this.setState({
+      suggestion: {
+        content: e.target.value
       },
-      contentChange: {
+      contentChange: { 
         touched: true
       }
     })
   }
 
   validateContent(newContent) {
-    console.log(newContent)
+    console.log(newContent.length)
     if (newContent.length === 0) {
       return 'Suggestion Content is required'
     } else if (newContent.length < 20) {
@@ -132,11 +132,17 @@ class EditSuggestionForm extends React.Component {
 
   handleClickSubmit = e => {
     e.preventDefault()
+    this.setState({
+      suggestion: {
+        title: this.state.titleChange.value,
+        content: this.state.contentChange.value
+      }
+    })
+    console.log(this.state)
     if (this.validateTitle(this.state.suggestion.title) === true && this.validateContent(this.state.suggestion.content) === true) {
-    const { suggestionId } = this.state.suggestion.id
     const { id, userid, title, content, date_published, date_modified, upvotes, approved, date_approved } = this.state.suggestion
     const newSuggestion = { id, userid, title, content, date_published, date_modified, upvotes, approved, date_approved }
-    fetch(config.API_ENDPOINT + `/${suggestionId}`, {
+    fetch(`${config.API_ENDPOINT}/api/suggestions/${this.props.match.params.suggestionId}`, {
       method: 'PATCH',
       body: JSON.stringify(newSuggestion),
       headers: {
@@ -161,6 +167,8 @@ class EditSuggestionForm extends React.Component {
   }
 
   render() {
+    const { title } = this.state.suggestion.title
+    const { content } = this.state.suggestion.content
     return (
       <form id='record-suggestion'>
           <div className='form-section'>
@@ -168,22 +176,22 @@ class EditSuggestionForm extends React.Component {
             <input 
               type='text' 
               name='suggestion-title' 
-              value={this.state.suggestion.title || ''} 
+              value={title} 
               onChange={this.handleChangeTitle} 
               aria-required='true'
             />
-            {this.state.titleChange.touched && <ValidationError message={this.validateTitle(this.state.suggestion.title)} />}
+            {this.state.titleChange.touched && <ValidationError message={this.validateTitle(title)} />}
           </div>
           <div className='form-section'>
             <label htmlFor='suggestion-content'>Content</label>
             <textarea
               name='suggestion-content'
-              value={this.state.suggestion.content || ''}
+              value={content}
               onChange={this.handleChangeContent}
               rows='15'
               aria-required='true'
             ></textarea>
-            {this.state.contentChange.touched && <ValidationError message={this.validateContent(this.state.suggestion.content)} />}
+            {this.state.contentChange.touched && <ValidationError message={this.validateContent(content)} />}
           </div>
           <Link
             to={`/demo-employee`}
