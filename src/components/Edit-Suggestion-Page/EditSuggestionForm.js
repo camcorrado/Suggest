@@ -1,31 +1,20 @@
 import ApiContext from '../../ApiContext'
 import config from '../../config'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import React from 'react'
 import ValidationError from '../ValidationError'
-import { withRouter } from 'react-router'
 
 class EditSuggestionForm extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      suggestion: {
-        id: '',
-        userid: '',
-        title: '',
-        content: '',
-        date_published: '',
-        date_modified: '',
-        upvotes: '',
-        approved: '',
-        date_approved: ''
-      },
       titleChange: {
+        value: '',
         touched: false
       },
       contentChange: {
+        value: '',
         touched: false
       }
     }
@@ -40,58 +29,25 @@ class EditSuggestionForm extends React.Component {
   static contextType = ApiContext
 
   static defaultProps ={
-    editSuggestion: () => {},
-    match: {
-      params: {}
-    }
-  }
-
-  static propTypes = {
-    match: PropTypes.object.isRequired
+    editSuggestion: () => {}
   }
 
   componentDidMount() {
-    console.log(this.props.title)
-    fetch(`${config.API_ENDPOINT}/api/suggestions/${this.props.match.params.suggestionId}`, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json'
+    this.setState({
+      titleChange: {
+        value: this.props.suggestion.title
+      },
+      contentChange: {
+        value: this.props.suggestion.content
       }
     })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.status)
-        }
-        return res.json()
-      })
-      .then(responseData => {
-        this.setState({
-          suggestion: {
-            id: responseData.id,
-            userid: responseData.userid,
-            title: responseData.title,
-            content: responseData.content,
-            date_published: responseData.date_published,
-            date_modified: new Date().toDateString(),
-            upvotes: responseData.upvotes,
-            approved: responseData.approved,
-            date_approved: responseData.date_approved
-          }
-        })
-        console.log(this.state)
-      })
-      .catch(error => {
-        console.error(error)
-        this.setState({ error })
-      })
+    console.log(this.state)
   }
 
   handleChangeTitle = e => {
     this.setState({
-      suggestion: {
-        title: e.target.value
-      },
       titleChange: { 
+        value: e.target.value,
         touched: true
       }
     })
@@ -110,13 +66,12 @@ class EditSuggestionForm extends React.Component {
 
   handleChangeContent = e => {
     this.setState({
-      suggestion: {
-        content: e.target.value
-      },
-      contentChange: { 
+      contentChange: {
+        value: e.target.value,
         touched: true
       }
     })
+    console.log(this.state)
   }
 
   validateContent(newContent) {
@@ -167,8 +122,7 @@ class EditSuggestionForm extends React.Component {
   }
 
   render() {
-    const { title } = this.state.suggestion.title
-    const { content } = this.state.suggestion.content
+    const { title, content } = this.props.suggestion
     return (
       <form id='record-suggestion'>
           <div className='form-section'>
@@ -211,4 +165,4 @@ class EditSuggestionForm extends React.Component {
   }
 }
 
-export default withRouter(EditSuggestionForm)
+export default EditSuggestionForm

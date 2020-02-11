@@ -7,10 +7,8 @@ class EditSuggestionPage extends React.Component {
   static contextType = ApiContext
 
   state = {
-    id: null,
-    title: null,
-    content: null
-  };
+    suggestion: []
+  }
 
   componentDidMount() {
     const { suggestionId } = this.props.match.params
@@ -18,16 +16,14 @@ class EditSuggestionPage extends React.Component {
       method: 'GET'
     })
       .then(res => {
-        if (!res.ok)
+        if (!res.ok) {
           return res.json().then(error => Promise.reject(error))
-
+        }
         return res.json()
       })
-      .then(responseData => {
+      .then(suggestion => {
         this.setState({
-          id: responseData.id,
-          title: responseData.title,
-          content: responseData.content,
+          suggestion
         })
       })
       .catch(error => {
@@ -36,16 +32,15 @@ class EditSuggestionPage extends React.Component {
   }
 
   render() {
-    const { id, title, content } = this.state
+    const { id, userid, title, date_published, content, date_modified, approved, date_approved, upvotes } = this.state.suggestion
+    const suggestion = { id, userid, title, date_published, content, date_modified, approved, date_approved, upvotes }
     return (
       <section className='editSuggestionPage'>
         <header>
           <h1>Make Some Changes:</h1>
         </header>
         <EditSuggestionForm
-          id={id}
-          title={title}
-          content={content}
+          suggestion={suggestion}
         />
       </section>
     )
