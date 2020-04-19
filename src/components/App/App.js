@@ -18,6 +18,25 @@ class App extends React.Component {
     sortBy: 'newest'
   }
 
+  componentDidMount() {
+    fetch(`${config.API_ENDPOINT}/api/suggestions`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.status)
+        }
+        return res.json()
+      })
+      .then(data => this.setSuggestions(data))
+      .catch(error => {
+        console.error(error)
+    })
+  }
+
   setSuggestions = (suggestions) => {
     this.setState({
       suggestions
@@ -54,55 +73,9 @@ class App extends React.Component {
     })
   }
 
-  handleApproveChange = (suggestionId, newDate) => {
-    for (let i = 0; i < this.state.suggestions.length; i++) {
-      if (this.state.suggestions[i].id === suggestionId) {
-        this.setState(prevState => {
-          const suggestions = [...prevState.suggestions]
-          const index = suggestions.findIndex(s => s.id === suggestionId)
-          suggestions[index].approved = true
-          suggestions[index].date_approved = newDate
-          return { suggestions }
-        })
-      }
-    }
-  }
-
-  handleChangeUpvotes = (suggestionId, newUpvotes) => {
-    for (let i = 0; i < this.state.suggestions.length; i++) {
-      if (this.state.suggestions[i].id === suggestionId) {
-        this.setState(prevState => {
-          const suggestions = [...prevState.suggestions]
-          const index = suggestions.findIndex(s => s.id === suggestionId)
-          suggestions[index].upvotes = newUpvotes
-          return { suggestions }
-        })
-      }
-    }
-  }
-
   handleSortByChange = (value) => {
     this.setState({
       sortBy: value
-    })
-  }
-
-  componentDidMount() {
-    fetch(`${config.API_ENDPOINT}/api/suggestions`, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.status)
-        }
-        return res.json()
-      })
-      .then(data => this.setSuggestions(data))
-      .catch(error => {
-        console.error(error)
     })
   }
 
@@ -115,8 +88,6 @@ class App extends React.Component {
       addSuggestion: this.handleAddSuggestion,
       editSuggestion: this.handleEditSuggestion,
       deleteSuggestion: this.handleDeleteSuggestion,
-      handleApprove: this.handleApproveChange,
-      handleUpvote: this.handleChangeUpvotes,
       handleSortBy: this.handleSortByChange
     }
 

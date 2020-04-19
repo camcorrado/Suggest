@@ -1,70 +1,55 @@
 import ApiContext from '../../ApiContext'
 import { Link } from 'react-router-dom'
-import React from 'react'
+import React, { Component } from 'react'
 import ValidationError from '../ValidationError'
 
-class EditSuggestionForm extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      titleChange: {
-        touched: false
-      },
-      contentChange: {
-        touched: false
-      }
-    }
-
-    this.onTitleChange = this.onTitleChange.bind(this)
-    this.onContentChange = this.onContentChange.bind(this)
-    this.handleClickSubmit = this.handleClickSubmit.bind(this)
-    this.validateTitle = this.validateTitle.bind(this)
-    this.validateContent = this.validateContent.bind(this)
-  }
-
+export default class EditNoteForm extends Component {
   static contextType = ApiContext
 
-  static defaultProps = {
-    editSuggestion: () => {}
+  state = {
+    titleChange: {
+      touched: false
+    },
+    contentChange: {
+      touched: false
+    }
   }
 
-  onTitleChange = e => {
-    this.props.onTitleChange(e.target.value)
-    this.setState({
-      titleChange: {
-        touched: true
-      }
-    })
+  onTitleChange = async (e) => {
+    this.setState({ titleChange: { touched: true } })
+    await this.props.onTitleChange(e.target.value)
+    this.removeValidInfoPrompt()
   }
 
-  validateTitle(newTitle) {
-    if (newTitle.length === 0) {
-      return 'Suggestion Title is required'
-    } else if (newTitle.length < 3) {
-      return 'Suggestion Title must be at least 3 characters long'
+  validateTitle(value) {
+    if (value.length === 0) {
+      return 'Title is required'
+    } else if (value.length < 3) {
+      return 'Title must be at least 3 characters long'
     } else {
       return true
     }
   }
 
-  onContentChange = e => {
-    this.props.onContentChange(e.target.value)
-    this.setState({
-      contentChange: {
-        touched: true
-      }
-    })
+  onContentChange = async (e) => {
+    this.setState({ contentChange: { touched: true } })
+    await this.props.onContentChange(e.target.value)
+    this.removeValidInfoPrompt()
   }
 
-  validateContent(newContent) {
-    console.log(newContent.length)
-    if (newContent.length === 0) {
-      return 'Suggestion Content is required'
-    } else if (newContent.length < 20) {
-      return 'Suggestion Content  must be at least 20 characters long'
+  validateContent(value) {
+    if (value.length === 0) {
+      return 'Content is required'
+    } else if (value.length < 20) {
+      return 'Content  must be at least 20 characters long'
     } else {
       return true
+    }
+  }
+
+  removeValidInfoPrompt() {
+    if (this.props.suggestion.title.length >= 3 && this.props.suggestion.content.length >= 20) {
+      document.getElementById('submitMessage').innerHTML = ``
     }
   }
 
@@ -78,46 +63,55 @@ class EditSuggestionForm extends React.Component {
   }
 
   render() {
+    const { title, content } = this.props.suggestion
     return (
-      <form id='record-suggestion'>
-          <div className='form-section'>
-            <label htmlFor='suggestion-title'>Title</label>
-            <input 
-              type='text' 
-              name='suggestion-title' 
-              value={this.props.suggestion.title} 
-              onChange={this.onTitleChange} 
-              aria-required='true'
-            />
-            {this.state.titleChange.touched && <ValidationError message={this.validateTitle(this.props.suggestion.title)} />}
-          </div>
-          <div className='form-section'>
-            <label htmlFor='suggestion-content'>Content</label>
-            <textarea
-              name='suggestion-content'
-              value={this.props.suggestion.content}
-              onChange={this.onContentChange}
-              rows='15'
-              aria-required='true'
-            ></textarea>
-            {this.state.contentChange.touched && <ValidationError message={this.validateContent(this.props.suggestion.content)} />}
-          </div>
-          <Link
-            to={`/demo-employee`}
-            onClick={this.handleClickSubmit}
-            className='makeButton'
-          >
-            Submit
-          </Link>
-          <Link 
-            to={`/demo-employee`}
-            className='makeButton'
-          >
-            Cancel
-          </Link>
-      </form>        
+      <section className='EditSuggestionForm'>
+        <form onSubmit={this.handleSubmit}>
+            <div className='form-section'>
+              <label htmlFor='suggestion-title'>Title</label>
+              <input 
+                id='title'
+                type='text' 
+                name='title' 
+                placeholder={title || ''}
+                required
+                value={title || ''} 
+                onChange={this.onTitleChange} 
+                aria-required='true'
+              />
+              {this.state.titleChange.touched && <ValidationError message={this.validateTitle(this.props.suggestion.title)} />}
+            </div>
+            <div className='form-section'>
+              <label htmlFor='suggestion-content'>Content</label>
+              <textarea
+                id='content'
+                name='content'
+                type='text'
+                placeholder={content || ''}
+                required
+                value={content || ''}
+                onChange={this.onContentChange}
+                rows='15'
+                aria-required='true'
+              ></textarea>
+              {this.state.contentChange.touched && <ValidationError message={this.validateContent(this.props.suggestion.content)} />}
+            </div>
+            <div id="submitMessage"></div>
+            <Link
+              to={`/demo-employee`}
+              onClick={this.handleClickSubmit}
+              className='makeButton'
+            >
+              Submit
+            </Link>
+            <Link 
+              to={`/demo-employee`}
+              className='makeButton'
+            >
+              Cancel
+            </Link>
+        </form>        
+      </section>
     )
   }
 }
-
-export default EditSuggestionForm

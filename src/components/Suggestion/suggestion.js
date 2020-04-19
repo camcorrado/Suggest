@@ -3,70 +3,88 @@ import config from '../../config'
 import React from 'react'
 
 export default class Suggestion extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      touched: false
-    }
-
-    this.handleClickSubmitUpvote = this.handleClickSubmitUpvote.bind(this)
-    this.handleClickSubmitApprove = this.handleClickSubmitApprove.bind(this)
-  }
-
   static contextType = ApiContext
 
-  static defaultProps ={
+  static defaultProps = {
     handleUpvote: () => {},
-    handleApprove: () => {}
+    editSuggestion: () => {}
   }
 
-  handleClickSubmitUpvote = (suggestion, callback) =>{
+  state = {
+    touched: false
+  }
+
+  handleClickUpvote = (e) => {
+    e.preventDefault()
     this.setState({ touched: true })
     const suggestionId = this.props.id
     const newUpvotes = this.props.upvotes + 1
-    fetch(config.API_ENDPOINT + `/${suggestionId}`, {
+    const { id, userid, title, content, date_published, date_modified, approved, date_approved } = this.props
+    const newSuggestion = { 
+      id: id,
+      userid: userid, 
+      title: title,
+      content: content, 
+      date_published: date_published,
+      date_modified: date_modified,
+      upvotes: newUpvotes,
+      approved: approved,
+      date_approved: date_approved
+    }
+    fetch(`${config.API_ENDPOINT}/api/suggestions/${suggestionId}`, {
       method: 'PATCH',
-      body: JSON.stringify(suggestion),
+      body: JSON.stringify(newSuggestion),
       headers: {
         'content-type': 'application/json',
       },
     })
       .then(res => {
-        if (!res.ok)
-          return res.json().then(error => Promise.reject(error))
+        if (!res.ok) {
+          throw new Error(res.status)
+        }
       })
       .then(() => {
-        callback(callback)
-        this.context.handleUpvote(suggestionId, newUpvotes)
+        this.context.editSuggestion(newSuggestion)
       })
       .catch(error => {
         console.error(error)
-        this.setState({ error })
       })
   }
 
-  handleClickSubmitApprove = (suggestion, callback) =>{
+  handleClickApprove = (e) => {
+    e.preventDefault()
     const suggestionId = this.props.id
-    const dateApprove = new Date().toDateString()
-    fetch(config.API_ENDPOINT + `/${suggestionId}`, {
+    const dateApproved = new Date().toDateString()
+    const { id, userid, title, content, date_published, date_modified, upvotes } = this.props
+    const newSuggestion = {
+      id: id,
+      userid: userid,
+      title: title,
+      content: content,
+      date_published: date_published,
+      date_modified: date_modified,
+      upvotes: upvotes,
+      date_approved: dateApproved,
+      approved: true
+    }
+    fetch(`${config.API_ENDPOINT}/api/suggestions/${suggestionId}`, 
+    {
       method: 'PATCH',
-      body: JSON.stringify(suggestion),
+      body: JSON.stringify(newSuggestion),
       headers: {
         'content-type': 'application/json',
       },
     })
       .then(res => {
-        if (!res.ok)
-          return res.json().then(error => Promise.reject(error))
+        if (!res.ok) {
+          throw new Error(res.status)
+        }
       })
       .then(() => {
-        callback(callback)
-        this.context.handleApprove(suggestionId, dateApprove)
+        this.context.editSuggestion(newSuggestion)
       })
       .catch(error => {
         console.error(error)
-        this.setState({ error })
       })
   }
 
@@ -141,7 +159,7 @@ export default class Suggestion extends React.Component {
                 id='upvoteButton'
                 type='submit'
                 disabled={this.state.touched === true ? true : false}
-                onClick={e => this.handleClickSubmitUpvote}
+                onClick={this.handleClickUpvote}
               >
                 Upvote
               </button>
@@ -192,7 +210,7 @@ export default class Suggestion extends React.Component {
               <button
                 id='approveButton'
                 type='submit'
-                onClick={e => this.handleClickSubmitApprove}
+                onClick={this.handleClickApprove}
               >
                 Approve
               </button>

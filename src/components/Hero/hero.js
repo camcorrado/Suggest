@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import React from 'react'
-import SignUpForm from '../Sign-Up/SignUpForm'
 
 class Hero extends React.Component {
   render() {
@@ -17,11 +16,8 @@ class Hero extends React.Component {
         </section>
         <section>
           <h3>Asking for Success</h3>
-          <p>Ask, and ye shall recieve (...maybe, withing reason)</p>
+          <p>Ask, and ye shall recieve (...maybe, within reason)</p>
           <Link to='/approved-suggestions'>View approved suggestions</Link>
-        </section>
-        <section>
-          <SignUpForm />
         </section>
       </section>
     )

@@ -2,7 +2,6 @@ import ApiContext from '../../ApiContext'
 import { Link } from 'react-router-dom'
 import React from 'react'
 import SortByForm from '../SortByForm'
-import SignUpForm from '../Sign-Up/SignUpForm'
 import Suggestion from '../Suggestion/Suggestion'
 
 export default class ApprovedSuggestionsPage extends React.Component {
@@ -20,7 +19,6 @@ export default class ApprovedSuggestionsPage extends React.Component {
       return (
         <section className='suggestionsList'>
           <h1>There are currently no suggestions to be approved!</h1>
-          <SignUpForm />
         </section>
       )
     // No Suggestions as Employee User
@@ -43,7 +41,6 @@ export default class ApprovedSuggestionsPage extends React.Component {
       return (
         <section className='suggestionsList'>
           <h1>There are currently no approved suggestions!</h1>
-          <SignUpForm />
         </section>
       )
     // No Approved Suggestions as Employee User
@@ -121,7 +118,6 @@ export default class ApprovedSuggestionsPage extends React.Component {
               )}
             </ul>
           }
-          <SignUpForm />
         </section>
       )
     // There are Approved Suggestions as Emlployee & Admin User

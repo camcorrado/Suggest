@@ -1,3 +1,3 @@
 export default {
-    API_ENDPOINT: 'https://shielded-taiga-13729.herokuapp.com'
+    API_ENDPOINT: 'https://secure-beach-12121.herokuapp.com'
   }

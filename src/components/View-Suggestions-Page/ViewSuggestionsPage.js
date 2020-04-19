@@ -1,7 +1,6 @@
 import ApiContext from '../../ApiContext'
 import { Link } from 'react-router-dom'
 import React from 'react'
-import SignUpForm from '../Sign-Up/SignUpForm'
 import SortByForm from '../SortByForm'
 import Suggestion from '../Suggestion/Suggestion'
 
@@ -29,14 +28,13 @@ export default class ViewSuggestionsPage extends React.Component {
       return (
         <section className='suggestionsList'>
           <h1>There are currently no suggestions!</h1>
-          <SignUpForm />
         </section>
       )
     // No Suggestions as Employee User
     } else if (otherUserSuggestions.length === 0 && this.context.user === 'employee') {
       return (
         <section className='suggestionsList'>
-          <h1>There are currently no suggestions by others!</h1>
+          <h1>There are currently no suggestions by other users!</h1>
         </section>
       )
     // No Suggestions as Admin User
@@ -51,7 +49,7 @@ export default class ViewSuggestionsPage extends React.Component {
         return (
           <section className='suggestionsList'>
             <h1>All suggestions have been approved!</h1>
-            <SignUpForm />
+            <Link to='/approved-suggestions'>View approved suggestions</Link>
           </section>
         )
     // No Unapproved Suggestions as Employee User
@@ -69,7 +67,7 @@ export default class ViewSuggestionsPage extends React.Component {
           <h1>All suggestions have been approved!</h1>
         </section>
       )
-    // Approved Suggestions as Default User
+    // Suggestions as Default User
     } else if (this.context.user === 'default') {
       return (
         <section className='suggestionsList'>
@@ -132,10 +130,9 @@ export default class ViewSuggestionsPage extends React.Component {
               )}
             </ul>
           }
-          <SignUpForm />
         </section>
       )
-    // Approved Suggestions as Employee User
+    // Suggestions as Employee User
     } else if (this.context.user === 'employee') {
       return (
         <section className='suggestionsList'>
@@ -200,7 +197,7 @@ export default class ViewSuggestionsPage extends React.Component {
           } 
         </section>
       )
-    // Approved Suggestions as Admin User
+    // Suggestions as Admin User
     } else {
       return (
         <section className='suggestionsList'>
@@ -212,7 +209,7 @@ export default class ViewSuggestionsPage extends React.Component {
                 <li key={suggestion.id}>
                   <Suggestion
                     id={suggestion.id}
-                    user={suggestion.user}
+                    userid={suggestion.userid}
                     title={suggestion.title}
                     content={suggestion.content}
                     date_published={suggestion.date_published}

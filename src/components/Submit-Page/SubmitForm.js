@@ -2,105 +2,86 @@ import ApiContext from '../../ApiContext'
 import config from '../../config'
 import React from 'react'
 import ValidationError from '../ValidationError'
-import { withRouter } from 'react-router-dom'
 
 class SubmitForm extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      newSuggestion: {
-        'id': '',
-        'userid': 100,
-        'title': '',
-        'content': '',
-        'date_published': new Date().toDateString(),
-        'date_modified': null,
-        'approved': false,
-        'date_approved': null,
-        'upvotes': 0,
-      },
-      titleChange: {
-        value: '',
-        touched: false
-      },
-      contentChange: {
-        value: '',
-        touched: false
-      }
-    }
-
-    this.createId = this.createId.bind(this)
-    this.updateTitleAndId = this.updateTitleAndId.bind(this)
-    this.updateContent = this.updateContent.bind(this)
-    this.validateTitle = this.validateTitle.bind(this)
-    this.validateContent = this.validateContent.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
   static contextType = ApiContext
 
   static defaultProps ={
     addSuggestion: () => {}
   }
 
-  createId(id) {
-    this.setState(prevState => ({
-      newSuggestion: {
-        ...prevState.newSuggestion,
-        'id': id,
-        }
-      })
-    )
+  state = {
+    newSuggestion: {
+      userid: 100,
+      title: '',
+      content: '',
+      date_published: new Date().toDateString(),
+      date_modified: null,
+      approved: false,
+      date_approved: null,
+      upvotes: 0,
+    },
+    titleChange: {
+      touched: false
+    },
+    contentChange: {
+      touched: false
+    }
   }
 
-  updateTitleAndId(title) {
-    this.setState({ titleChange: { value: title, touched: true } })
-    this.setState(prevState => ({
+  onTitleChange = async (value) => {
+    this.setState({ titleChange: { touched: true } })
+    await this.setState(prevState => ({
       newSuggestion: {
         ...prevState.newSuggestion,
-        'title': title
+        title: value
       }
     }))
+    this.removeValidInfoPrompt()
   }
 
-  updateContent(content) {
-    this.setState({ contentChange: { value: content, touched: true } })
-    this.setState(prevState => ({
-      newSuggestion: {
-        ...prevState.newSuggestion,
-        'content': content
-      }
-    }))
-  }
-
-  validateTitle() {
-    const title = this.state.titleChange.value.trim()
-    if (title.length === 0) {
-      return 'Suggestion Title is required'
-    } else if (title.length < 3) {
-      return 'Suggestion Title must be at least 3 characters long'
+  validateTitle(value) {
+    if (value.length === 0) {
+      return 'Title is required'
+    } else if (value.length < 3) {
+      return 'Title must be at least 3 characters long'
     } else {
       return true
     }
   }
 
-  validateContent() {
-    const content = this.state.contentChange.value.trim()
-    if (content.length === 0) {
-      return 'Suggestion Content is required'
-    } else if (content.length < 20) {
-      return 'Suggestion Content  must be at least 20 characters long'
+  onContentChange = async (value) => {
+    this.setState({ contentChange: { touched: true } })
+    await this.setState(prevState => ({
+      newSuggestion: {
+        ...prevState.newSuggestion,
+        content: value
+      }
+    }))
+    this.removeValidInfoPrompt()
+  }
+
+  validateContent(value) {
+    if (value.length === 0) {
+      return 'Content is required'
+    } else if (value.length < 20) {
+      return 'Content  must be at least 20 characters long'
     } else {
       return true
     }
   }
 
-  handleSubmit = async (e) => {
+  removeValidInfoPrompt() {
+    if (this.state.newSuggestion.title.length >= 3 && this.state.newSuggestion.content.length >= 20) {
+      document.getElementById('submitMessage').innerHTML = ``
+    }
+  }
+
+  handleSubmit = (e) => {
     e.preventDefault()
     if (this.validateTitle(this.state.newSuggestion.title) === true && this.validateContent(this.state.newSuggestion.content) === true) {
-      await this.createId(this.context.suggestions.length + 1)
       const suggestion = this.state.newSuggestion
+      console.log(JSON.stringify(suggestion))
       fetch(`${config.API_ENDPOINT}/api/suggestions`, {
         method: 'POST',
         body: JSON.stringify(suggestion),
@@ -118,46 +99,49 @@ class SubmitForm extends React.Component {
         })
         .then(data => {
           this.context.addSuggestion(data)
-          this.props.history.push('/demo-employee')
+          this.props.onSubmit()
         })
         .catch(error => {
           console.error(error)
         })
-        this.props.history.push('/demo-employee')
     } else {
       document.getElementById('submitMessage').innerHTML = `<p>Please enter valid information.</p>`
     }
   }
 
   render() {
-    const titleError = this.validateTitle()
-    const contentError = this.validateContent()
-    
     return (
-      <form id='record-suggestion'>
+      <form onSubmit={this.handleSubmit}>
         <div className='form-section'>
           <label htmlFor='suggestion-title'>Title</label>
           <input 
+            id='title'
             type='text' 
-            name='suggestion-title'
-            placeholder='What needs change?' 
-            onChange={e => this.updateTitleAndId(e.target.value)} 
+            name='title'
+            placeholder='What needs change?'
+            onChange={e => this.onTitleChange(e.target.value)} 
+            aria-label='Enter a title for your Suggestion'
             aria-required='true'
+            aria-describedby='suggestionTitleFeedback'
           />
-          {this.state.titleChange.touched && <ValidationError message={titleError} />}
+          {this.state.titleChange.touched && <ValidationError message={this.validateTitle(this.state.newSuggestion.title)} />}
         </div>
         <div className='form-section'>
           <label htmlFor='suggestion-content'>Content</label>
           <textarea
-            name='suggestion-content'
+            id='content'
+            type='text'
+            name='content'
+            placeholder='Go into detail...'
             rows='15' 
-            onChange={e => this.updateContent(e.target.value)} 
+            onChange={e => this.onContentChange(e.target.value)} 
+            aria-label='Enter content for your Suggestion'
             aria-required='true'
+            aria-describedby='suggestionContentFeedback'
           ></textarea>
-          {this.state.contentChange.touched && <ValidationError message={contentError} />}
+          {this.state.contentChange.touched && <ValidationError message={this.validateContent(this.state.newSuggestion.content)} />}
         </div>
-        <div id='submitMessage'>
-        </div>
+        <div id='submitMessage'></div>
         <button onClick={this.handleSubmit}>
           Submit
         </button>
@@ -167,4 +151,4 @@ class SubmitForm extends React.Component {
   }
 }
 
-export default withRouter(SubmitForm)
+export default SubmitForm

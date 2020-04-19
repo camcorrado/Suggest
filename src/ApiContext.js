@@ -8,7 +8,5 @@ export default React.createContext({
   addSuggestion: () => {},
   editSuggestion: () => {},
   deleteSuggestion: () => {},
-  handleApprove: () => {},
-  handleUpvote: () => {},
   handleSortBy: () => {}
 })
