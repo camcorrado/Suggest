@@ -3,17 +3,11 @@ import { Link } from 'react-router-dom'
 import React from 'react'
 
 class Nav extends React.Component {
-  constructor(props) {
-    super(props)
-    
-    this.handleChangeUser = this.handleChangeUser.bind(this)
-  }
-
+  static contextType = ApiContext
+  
   static defaultProps ={
     changeUser: () => {}
   }
-
-  static contextType = ApiContext
 
   handleChangeUser = (newUser) => {
     this.context.changeUser(newUser)
@@ -23,7 +17,7 @@ class Nav extends React.Component {
     if (this.context.user === 'default') {
       return (
         <nav role='navigation'>
-          <Link to='/'>
+          <Link to='/' onClick={() => {this.handleChangeUser('default')}}>
             Home
           </Link>
           <Link to='/demo-employee' onClick={() => {this.handleChangeUser('employee')}}>

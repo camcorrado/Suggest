@@ -35,6 +35,7 @@ class App extends React.Component {
       .catch(error => {
         console.error(error)
     })
+    this.setState({user: localStorage.user})
   }
 
   setSuggestions = (suggestions) => {
@@ -44,8 +45,9 @@ class App extends React.Component {
   }
 
   handleChangeUser = newUser => {
+    localStorage.setItem('user', newUser)
     this.setState({
-      user: newUser
+      user: localStorage.user
     })
   }
 

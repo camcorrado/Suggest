@@ -7,7 +7,6 @@ import Suggestion from '../Suggestion/Suggestion'
 //Admin User VS when there are Approved Suggs
 
 export default class ViewSuggestionsPage extends React.Component {
-
   static contextType = ApiContext
 
   render() {

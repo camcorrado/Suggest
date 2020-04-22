@@ -3,7 +3,6 @@ import React from 'react'
 import Suggestion from '../Suggestion/Suggestion'
 
 export default class SuggestionPage extends React.Component {
-
   static contextType = ApiContext
 
   static defaultProps = {

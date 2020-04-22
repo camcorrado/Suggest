@@ -6,12 +6,6 @@ import SortByForm from '../SortByForm'
 import Suggestion from '../Suggestion/Suggestion'
 
 export default class YourSuggestionsPage extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.handleClickDelete = this.handleClickDelete.bind(this);
-  }
-
   static contextType = ApiContext
 
   static defaultProps = {

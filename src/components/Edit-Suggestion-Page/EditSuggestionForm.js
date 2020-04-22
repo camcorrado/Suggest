@@ -96,7 +96,7 @@ export default class EditNoteForm extends Component {
               ></textarea>
               {this.state.contentChange.touched && <ValidationError message={this.validateContent(this.props.suggestion.content)} />}
             </div>
-            <div id="submitMessage"></div>
+            <div id='submitMessage'></div>
             <Link
               to={`/demo-employee`}
               onClick={this.handleClickSubmit}

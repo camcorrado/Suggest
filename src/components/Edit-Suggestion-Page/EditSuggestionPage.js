@@ -4,14 +4,6 @@ import EditSuggestionForm from './EditSuggestionForm'
 import React from 'react'
 
 class EditSuggestionPage extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.handleChangeTitle = this.handleChangeTitle.bind(this)
-    this.handleChangeContent = this.handleChangeContent.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
   static contextType = ApiContext
 
   static defaultProps = {

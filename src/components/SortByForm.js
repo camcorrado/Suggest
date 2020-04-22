@@ -9,7 +9,7 @@ export default class YourSuggestionsPage extends React.Component {
       value: 'newest'
     }
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChange = this.handleChange.bind(this)
   }
 
   static contextType = ApiContext
