@@ -17,8 +17,26 @@ class App extends React.Component {
     user: 'default',
     sortBy: 'newest'
   }
+  
 
   componentDidMount() {
+    if (window.location.pathname === '/') {
+      this.setState({user: 'default'})
+    } else if (window.location.pathname === '/view-suggestions' && localStorage.user === 'default') {
+      this.setState({user: 'default'})
+    } else if (window.location.pathname === '/approved-suggestions' && localStorage.user === 'default') {
+      this.setState({user: 'default'})
+    } else if (window.location.pathname === '/demo-employee' || window.location.pathname === '/submit-suggestions') {
+      this.setState({user: 'employee'})
+    } else if (window.location.pathname === '/view-suggestions' && localStorage.user === 'employee') {
+      this.setState({user: 'employee'})
+    } else if (window.location.pathname === '/approved-suggestions' && localStorage.user === 'employee') {
+      this.setState({user: 'employee'})
+    } else if (window.location.pathname === '/demo-adminUser') {
+      this.setState({user: 'admin'})
+    } else if (window.location.pathname === '/approved-suggestions' && localStorage.user === 'admin') {
+      this.setState({user: 'admin'})
+    }
     fetch(`${config.API_ENDPOINT}/api/suggestions`, {
       method: 'GET',
       headers: {
@@ -35,7 +53,6 @@ class App extends React.Component {
       .catch(error => {
         console.error(error)
     })
-    this.setState({user: 'deafult'})
   }
 
   setSuggestions = (suggestions) => {
@@ -81,10 +98,6 @@ class App extends React.Component {
     })
   }
 
-  resetUser = () => {
-    this.setState({user: 'deafult'})
-  }
-
   render() {
     const value = {
       suggestions: this.state.suggestions,
@@ -101,7 +114,7 @@ class App extends React.Component {
       <ApiContext.Provider value={value}>
         <main className='App'>
           <Nav />
-          <Route exact path='/' component={Hero} user={this.resetUser()}/>
+          <Route exact path='/' component={Hero}/>
           <Route path='/approved-suggestions' component={ApprovedSuggestionsPage} />
           <Route path='/edit-suggestion/:suggestionId' component={EditSuggestionPage} />
           <Route path='/demo-employee' component={YourSuggestionsPage} />
