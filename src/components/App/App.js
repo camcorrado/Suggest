@@ -35,7 +35,7 @@ class App extends React.Component {
       .catch(error => {
         console.error(error)
     })
-    this.setState({user: localStorage.user})
+    this.setState({user: 'deafult'})
   }
 
   setSuggestions = (suggestions) => {
@@ -81,6 +81,10 @@ class App extends React.Component {
     })
   }
 
+  resetUser = () => {
+    this.setState({user: 'deafult'})
+  }
+
   render() {
     const value = {
       suggestions: this.state.suggestions,
@@ -97,7 +101,7 @@ class App extends React.Component {
       <ApiContext.Provider value={value}>
         <main className='App'>
           <Nav />
-          <Route exact path='/' component={Hero} />
+          <Route exact path='/' component={Hero} user={this.resetUser()}/>
           <Route path='/approved-suggestions' component={ApprovedSuggestionsPage} />
           <Route path='/edit-suggestion/:suggestionId' component={EditSuggestionPage} />
           <Route path='/demo-employee' component={YourSuggestionsPage} />
