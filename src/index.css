@@ -60,6 +60,11 @@ header, .Suggestion, .hero > section {
     padding: 5px;
 }
 
+header > h1 {
+    font-size: 52px;
+    filter: drop-shadow(4px 4px 4px #00CFFF);
+}
+
 .Suggestion {
     border: none;
 }
