@@ -12,21 +12,21 @@ As my first full-stack project, I wanted to work with features I was familiar wi
 
 ## Screenshots
 
-![landing page](https://i.imgur.com/mhKyavp.png)
+![landing page](https://i.imgur.com/vow6JDA.png)
 
-![viewing others' suggestions (non-user)](https://i.imgur.com/GnrPItm.png)
+![viewing others' suggestions (non-user)](https://i.imgur.com/vyliC3h.png)
 
-![view others' suggestions (employee-user)](https://i.imgur.com/33rJ673.png)
+![view others' suggestions (employee-user)](https://i.imgur.com/6zEtq3B.png)
 
-![view others' suggestions (admin-user)](https://i.imgur.com/o06PGqy.png)
+![view others' suggestions (admin-user)](https://i.imgur.com/tjxEczQ.png)
 
-![viewing your suggestions (employee-user)](https://i.imgur.com/a6IJH8D.png)
+![viewing your suggestions (employee-user)](https://i.imgur.com/oEa4mR2.png)
 
-![making a suggestion (employee-user)](https://i.imgur.com/Hr2MNqk.png)
+![making a suggestion (employee-user)](https://i.imgur.com/Ldk9r1v.png)
 
-![editing a suggestions (employee-user)](https://i.imgur.com/M5LwFok.png)
+![editing a suggestions (employee-user)](https://i.imgur.com/eiAtWmV.png)
 
-![viewing approved suggestions](https://i.imgur.com/efVg2Nv.png)
+![viewing approved suggestions](https://i.imgur.com/GOdvIjE.png)
 
 ## Built With
 
