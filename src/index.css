@@ -1,71 +1,176 @@
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  font-family: sans-serif; 
-  font-size: 20px;
-  color: #444;
-  text-align: center;
-  line-height: 1.5;
-  margin-top: 50px;
-  min-width: 320px;
+    background-color: white;
+    color: black;
+    font-family: sans-serif; 
+    font-size: 20px;
+    line-height: 1.5;
+    margin-top: 50px;
+    min-width: 320px;
+    padding: 20px;
+    text-align: center;
 }
 
 nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  padding: 5px;
-  background-color: #aaa;
-  display: flex;
-  justify-content: space-around;
+    background-color: #00CFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 5px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
 }
 
 a {
-  font-size: 14px;
+    color: black;
+    font-size: 14px;
+    text-decoration: none;
 }
 
-section {
-  min-height: 200px;
-  background-color: #bbb;
+nav > a {
+    padding: 0px 10px;
+    flex: 1;
 }
 
- {
-
+section > a {
+    text-decoration: underline;
 }
 
-section:nth-child(even) {
-  background-color: #ddd;
+.hero {
+    border: none;
 }
 
-li {
-  border: 2px solid black;
-  list-style: none;
-  margin-bottom: 15px;
+header, .Suggestion, .hero > section {
+    background-color: white;
+    border-image: linear-gradient(90deg, rgba(255, 0, 0, 0), #00CFFF, rgba(255, 0, 0, 0)) 0 0 1 0;
+    border-style: solid;
+    border-width: 1px;
+    font-family: 'OpenSans-Light';
+    font-size: 18px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.Suggestion {
+    border: none;
+}
+
+.SuggestionContent {
+    border-image: linear-gradient(90deg, rgba(255, 0, 0, 0), #00CFFF, rgba(255, 0, 0, 0)) 0 0 1 0;
+    border-style: solid;
+    border-width: 1px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    word-wrap:break-word;
+}
+
+h1 {
+    font-family: 'ProzaLibre-Regular';
+}
+
+h2 {
+    font-family: 'OpenSans-Regular';
+    font-size: 26px;
+}
+
+h3 {
+    font-family: 'OpenSans-Regular';
+    font-size: 22px;
 }
 
 ul {
-  padding-left: 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    margin: auto;
+    max-width: 500px;
+    padding-left: 0px;
 }
 
-button, .makeButton, select {
-  border: 1px solid black;
-  color: black;
-  text-decoration: none;
-  font-size: 12px;
-  margin: 5px;
+li {
+    border: 2px solid black;
+    list-style: none;
+    margin-bottom: 15px;
 }
 
-textarea {
-  margin: 10px;
-  width: 75%;
+button, select, #deleteButton, #editButton {
+    background-color: white;
+    border: 1px solid black;
+    color: black;
+    font-family: 'OpenSans-Regular';
+    font-size: 14px;
+    margin: 5px;
+    padding: 3px;
+    text-decoration: none;
+}
+
+option {
+    text-align: center;
+}
+
+#approveButton, #editButton, #deleteButton, #upvoteButton {
+    border: none;
+}
+
+#upvoteButton:hover {
+    background-color: #00CFFF
+}
+
+form {
+    margin: auto;
+    max-width: 50%;
+}
+
+.formSection {
+    margin-bottom: 5px;
+}
+
+form, .formSection {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    padding-right: 5px;
+}
+
+::placeholder {
+    color: gray;
+    opacity: 0.5;
+}
+
+input, textarea {
+    border: 1px solid black;
+    border-radius: 2px;
+    padding: 5px;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+}
+
+@font-face {
+    font-family: 'ProzaLibre-Regular';
+    src: local('ProzaLibre-Regular'), url(./fonts/ProzaLibre-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'OpenSans-Light';
+    src: local('OpenSans-Light'), url(./fonts/OpenSans-Light.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: 'OpenSans-Regular';
+    src: local('OpenSans-Regular'), url(./fonts/OpenSans-Regular.ttf) format('truetype');
 }
