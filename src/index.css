@@ -160,7 +160,7 @@ input, textarea {
     padding: 5px;
 }
 
-.error, .submitMessage {
+.error, #submitMessage {
     color: red;
     font-size: 12px;
 }
