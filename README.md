@@ -1,6 +1,6 @@
 # Suggest
 
-Suggest is a virtual suggestion box, where employees and employers can work together toward creating a better work environment. 
+Suggest is a virtual suggestion box, where employees and employers can work together toward creating a better work environment.
 
 Employees can leave anonymous suggestions, modify and delete their suggestions, upvote other users' suggestions, and view previously approved suggestions to get an idea of what goals are achievable.
 
@@ -30,12 +30,12 @@ As my first full-stack project, I wanted to work with features I was familiar wi
 
 ## Built With
 
-* React
-* CSS
-* Node
-* Express
-* PostgreSQL
+- React
+- CSS
+- Node
+- Express
+- PostgreSQL
 
 ## Live URL
 
-https://suggest-app.camcorrado.now.sh
+https://suggest-app-hzt2hikhz.vercel.app/
