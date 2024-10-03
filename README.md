@@ -31,11 +31,9 @@ As my first full-stack project, I wanted to work with features I was familiar wi
 ## Built With
 
 - React
+- HTML
 - CSS
+- JavaScript
 - Node
 - Express
 - PostgreSQL
-
-## Live URL
-
-https://suggest-app-hzt2hikhz.vercel.app/
